@@ -1,0 +1,36 @@
+NX,  NY,   NZ,       dz,     standwav_ana
+1120   1     240    0.000625         0
+NXS_start, NXS_end, NYS, NZS,    NZ_stratified   (10 10 10 15)
+1            160      1     160           240
+dx,      dy,      visc (10000:1 for SI and CGS, default SI =0.000001),   gravity,   den_w(kg)  (20 degreeC 10.1 decibar) den_s(kg)
+0.00125   0.00125       0.000001                                              9.80       1008.0      998.2525820406367                    NA        
+dt, 0.001875      NT,       ipltn, restart, irestartn
+0.001875        3360        480	0       40000
+ff_initial 106.74    ff_strati
+149.63                  79.63
+Am0,    h0(m) 0.151
+0.0       0.15
+ii_SOR  ii_SOR_Min  ii_SOR_Pos, beta=1.12,  errmax (1000:1 for SI and CGS)
+6000       100            1         1.18       1.0d-3
+uuwall,      Height_field ( 0 = no free surface )    height_smoothing
+0               1                                          1
+KdifX,    KdifZ      transp_x,  transp_y,  transp_z
+1.0d-5     1.0d-5      0.0        0.0        0.0
+WBaC (0.05)   SideSlip (0:Noslip 1:Top 2:TopSide 3:All)
+0              2
+Bossi(0=Non),  i_dfdxN(disabled), i_dfdx_vN(disabled)
+0               99999              99999
+ANH !( 0:Hydrostatic 1:Nonhydro without Hydro Correction 2:Adjustable-Nonhydro), CIP2D
+1                                                                                  1
+Both_ISOR_ErrMax (211:both 210:ISOR 201:Err 200:Either)  
+201
+conservation (one-domain only, 1:call ff reset)   conservation_power
+0                                                      2.5
+Time_order(1:Euler 2:Pre-Cor 3:SSPRK 4:RK4Sys 1D)  pp_sol1 sol2 sol3 sol4 (T3 =111 T4=0111) 
+3                                                   1  1  1  1
+OPENZ   SurfaceCorrection
+1          1
+MultiLevel(1:5) i_Multi1, 2, 3, 4, 5
+5                 5      4  3  3  2
+errLevel1    2       3      4
+1.2d-3     2.0d-3  3.0d-3  5.0d-3
