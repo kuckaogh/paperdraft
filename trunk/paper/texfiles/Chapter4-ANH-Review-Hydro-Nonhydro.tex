@@ -1,0 +1,23 @@
+\normalsize
+\section{Hydrostatic, Quasi-hydrostatic, and Non-hydrostatic Modeling}
+
+For non-hydrostatic model with primitive variable formulations, the continuity equation $\di u = 0$ is enforced by solving Equation \ref{eqn:pressure-poisson}. As mentioned by Shen\cite{Shen04} and Stansby \cite{Stansby1998}, the elliptic equations resulted from the incompressible flow simulations can be the most computationally expensive part of the numerical model.
+
+In hydrostatic models, the vertical scale is assumed to be much smaller than the horizontal scale, thus the momentum equations can be simplified by the assumption of hydrostatic balance in the vertical direction,
+\be
+\f{\p p_o}{\p z} = \rho g
+\ee
+In the horizontal direction, the derivative of this hydrostatic pressure at $z=\xi$ can be decomposed into barotropic and baroclinic terms,
+\be
+\left.\f{\p p_o}{\p x}\right|_{\xi} = \rho g \f{\p h}{\p x} + g \int_{\xi}^h \f{\p \rho}{\p x} dz
+\ee
+where $z=h$ is at the level of water surface. The horizontal velocity computation in hydrostatic assumption does not require correction from the non-hydrostatic pressure.
+To ensure the continuity, the vertical velocity $w$ at $z=\xi$ is computed from the integration of divergence of horizontal velocities from the bottom, $z=-d$,
+\be
+w_{\xi} = -\int_{-d}^{\xi} \di u \ dz
+\label{eqn:w-correction-hydrostatic}
+\ee
+
+The term "quasi-hydrostatic" is used differently by different authors. In Marshall's quasi-hydrostatic model \cite{Marshall1997}, the elliptic equation of the non-hydrostatic pressure is not solved. However, another elliptic equation of reduced dimension is solved to force the zero vertical velocity at the rigid lid surface. In Casulli's model \cite{Casulli1998}, "quasi-hydrostatic" means the free surface is computed from the intermediate velocities which are not yet corrected by the non-hydrostatic pressure. The non-hydrostatic elliptic equation and the reduced-dimension elliptic equation resulted from the implicit free surface are both solved.
+
+To lessen the computational burden of solving the non-hydrostatic elliptic equation, Janjic \cite{Janjic01} attached a non-hydrostatic module to a hydrostatic model. The computation of non-hydrostatic elliptic equation can be turned on or off depending on the grid resolution. Reeuwijk \cite{Reeuwijk02} decreases the computation effort by reducing the grid resolution for the non-hydrostatic pressure, followed by the spline interpolation to construct the missing information. 

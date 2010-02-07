@@ -1,0 +1,155 @@
+\normalsize
+\section{Constrained Interpolation Profile Method for Transport Modeling}
+
+The constrained interpolation profile (CIP) method proposed by Yabe et al. \cite{Yabe1991A, Yabe1991B, Yabe01, Xiao1999} has the capability of modeling sharp discontinuities of liquid-gas and liquid-solid interfaces. In the CIP method, the polynomial interpolation is used to construct the solutions between grid points, then both the constructed solution and the spatial derivatives of that solution are advected with the flow velocity. This strategy has found successful applications in fluid-structure interaction and gas-liquid turbulence mixing simulations \cite{Yabe01}. In this thesis the CIP Method is used to model the transport equation of salinity in the gravity current simulations. The CIP subroutine used in the current flow model is described in \cite{Xiao1999} and is also documented in Appendix \ref{appendix:CIP}.
+
+\begin{equation}
+\frac {\partial f}{\partial t} + u \frac {\partial f}{\partial
+x}=0
+\end{equation}
+The solution of the above equation is $f(x,t+dt)=f(x-udt,t)$, provided
+that the velocity is constant; otherwise, the time evolution of
+the scalar field $f$ can be approximated numerically as $f(x,t+dt)
+\backsim f(x-udt,t)$.
+To preserve the information between grid points, Yabe et. al. \cite{Yabe1991A, Yabe1991B, Yabe01, Xiao1999} use a polynomial interpolation to construct a continuous scalar field $F$ between the grid points. At the grid points $ x_i $ and $x_{iup}$, the cubic spline is initially designed to satisfy $F(x_i)=f(x_i)$ , $F(x_{i up})=f(x_{iup})$ ,
+$F'(x_i)=f'(x_i)$ , and $F'(x_{iup})=f'(x_{iup})$. Therefore, we
+have:
+\begin{equation}
+F(x)=ax^3+bx^2+cx+d
+\end{equation}
+\begin{equation}
+a_i=\frac{f'(x_i)+f'(x_{iup})}{D^2}+\frac{2[f(x_i)-f(x_{iup})]}{D^3}
+\end{equation}
+\begin{equation}
+b_i=\frac{3[f(x_{iup})-f(x_i)]}{D^2}-\frac{2f'(x_i)+f'(x_{iup})}{D^3}
+\end{equation}
+\begin{equation}
+c=f'(x_i),  d=f(x_i)
+\end{equation}
+where $D=-\Delta x$, $iup=i-1$ for $u\geq 0$; $D=\Delta x$,
+$iup=i+1$ otherwise.
+
+After the scalar field is constructed between grid points,
+the CIP method carries the scalar field along with the flow velocity,
+\begin{equation}
+f^{n+1}(x_i)=F(x_i-u \Delta t)
+\end{equation}
+\begin{equation}
+f'^{n+1}(x_i)=\partial F(x_i-u \Delta t)/ \partial x
+\end{equation}
+or,
+\begin{equation}
+f^{n+1}(x_i)=a_i(-u\Delta t)^3+b_i(-u\Delta t)^2+f'(x_i)(-u\Delta
+t)+f(x_i)
+\label{eqn:advect-f}
+\end{equation}
+\begin{equation}
+f'^{n+1}(x_i)=3a_i(-u\Delta t)^2+2b_i(-u\Delta t)+f'(x_i)
+\label{eqn:advect-dfdx}
+\end{equation}
+
+For the two-dimensional transport equation with source terms:
+\begin{equation}
+\frac {\partial f}{\partial t} + u \frac {\partial f}{\partial x}+
+v \frac {\partial f}{\partial y}=s(x,y,t) \label{equ:2Dfadvection}
+\end{equation}
+A two-step procedure with the non-advection step and the advection
+step is used. The scalar $f$ is first integrated to the intermediate value $f^*$ using the source term $s_i$ before the cubic interpolation. Then the interpolation function is constructed between grid points and the scalar is advected.
+\begin{equation}
+f^*=f^n+ s \Delta t \label{equ:fnonadvection}
+\end{equation}
+\begin{equation}
+f^{n+1}=F(x-u\Delta t, y-v\Delta t)
+\end{equation}
+The interpolation function $F_{i,j}(x,y)$ is designed to satisfy the continuity
+of $f$, ${\partial f/\partial x}$, ${\partial f/\partial y}$ at
+$x_{i,j}, x_{i+1,j}$, $x_{i,j+1}$ and $f$ at $ x_{i+1,j+1} $.
+The continuity at $ x_{i+1,j+1} $ can be improved by
+using higher order polynomials as suggested by Aoki:
+\begin{eqnarray}
+F_{i,j}(x,y)=C_{3,0}(x-x_i)^3+C_{2,0}(x-x_i)^2+C_{1,0}(x-x_i)+C_{0,0}\nonumber \\
++\ C_{0,3}(y-y_i)^3+C_{0,2}(y-y_i)^2+C_{0,1}(y-y_i)\nonumber \\
++\ C_{3,1}(x-x_i)^3(y-y_i)+C_{2,1}(x-x_i)^2(y-y_i)\nonumber \\
++\ C_{1,1}(x-x_i)(y-y_i)+C_{1,2}(x-x_i)^1(y-y_i)^2\nonumber \\
++\ C_{1,3}(x-x_i)(y-y_i)^3
+\end{eqnarray} %The $C$ coefficients can be solved from the continuity of $f$ and $\partial f/\partial t $ at the four grid points $x_{i,j}$ , $x_{i+1,j}$ , $x_{i,j+1}$ , and $x_{i+1,j+1}$.
+The spatial derivatives of the scalar $f$ can as well be advected by the CIP method.
+The transport equation for the spatial derivatives of $f$ can be derived from Equation \ref{equ:2Dfadvection} as:
+\begin{equation}
+\frac {\partial}{\partial t}(\frac{\partial f}{\partial x})  + u
+\frac {\partial}{\partial x}(\frac {\partial f}{\partial x})+ v
+\frac {\partial}{\partial y}(\frac {\partial f}{\partial x})=
+-\frac {\partial u}{\partial x}\frac {\partial f}{\partial x}
+-\frac {\partial v}{\partial x}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial x}
+\end{equation}
+\begin{equation}
+\frac {\partial}{\partial t}(\frac{\partial f}{\partial y})  + u
+\frac {\partial}{\partial x}(\frac {\partial f}{\partial y})+ v
+\frac {\partial}{\partial y}(\frac {\partial f}{\partial y})=
+-\frac {\partial u}{\partial y}\frac {\partial f}{\partial x}
+-\frac {\partial v}{\partial y}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial y}
+\end{equation}
+The same two-step procedure can be applied on $\partial f/\partial x$ and $\partial f/\partial y$. The first step is:
+\begin{equation}
+(\frac{\partial f}{\partial x})^*=(\frac{\partial f}{\partial
+x})^n+ (-\frac {\partial u}{\partial x}\frac {\partial f}{\partial
+x} -\frac {\partial v}{\partial x}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial x})^n \Delta t
+\label{equ:dfdxnonadvection}
+\end{equation}
+\begin{equation}
+(\frac{\partial f}{\partial y})^*=(\frac{\partial f}{\partial
+x})^n+ (-\frac {\partial u}{\partial y}\frac {\partial f}{\partial
+x} -\frac {\partial v}{\partial y}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial y})^n \Delta t
+\label{equ:dfdynonadvection}
+\end{equation}
+where the spatial derivatives of the source term are
+approximated from Equation \ref{equ:fnonadvection} as:
+\begin{equation}
+\frac{\partial s}{\partial x}
+=\frac{(f_{i+1,j}^*-f_{i-1,j}^*)-(f_{i+1,j}^n-f_{i-1,j}^n)
+}{2\Delta x\Delta t}
+\end{equation}
+\begin{equation}
+\frac{\partial s}{\partial y}
+=\frac{(f_{i,j+1}^*-f_{i,j-1}^*)-(f_{i,j+1}^n-f_{i,j-1}^n)
+}{2\Delta x\Delta t}
+\end{equation}
+followed by the advection step with the cubic spline $G_x$ and
+$G_y$ constructed from $(\partial f/\partial x)^*$ and $(\partial
+f/\partial y)^*$,
+\begin{equation}
+(\frac{\partial f}{\partial x})^{n+1}=G_x(x-u\Delta t, y-v\Delta
+t, t-\Delta t)
+\end{equation}
+\begin{equation}
+(\frac{\partial f}{\partial y})^{n+1}=G_y(x-u\Delta t, y-v\Delta
+t, t-\Delta t)
+\end{equation}
+The CIP technique can be extended to three dimensional case,
+\begin{equation}
+\frac{\partial \textbf{F}}{\partial t}+\textbf{u}\cdot \nabla
+\textbf{F}=\textbf{S}
+\end{equation}
+\begin{equation}
+\textbf{F}=
+\begin{pmatrix}
+f \\ \partial f/\partial x \\ \partial f/\partial y \\ \partial f/\partial z \\
+\end{pmatrix}
+\end{equation}
+\begin{equation}
+\textbf{S}=
+\begin{pmatrix}
+0
+\\ -\partial u /\partial x \cdot \partial f/\partial x-\partial v /\partial x \cdot \partial f/\partial
+y-\partial w /\partial x \cdot \partial f/\partial z
+\\ -\partial u /\partial y \cdot \partial f/\partial x-\partial v /\partial y \cdot \partial f/\partial
+y-\partial w /\partial y \cdot \partial f/\partial z
+\\ -\partial u /\partial z \cdot \partial f/\partial x-\partial v /\partial z \cdot \partial f/\partial
+y-\partial w /\partial z \cdot \partial f/\partial z
+\end{pmatrix}
+\end{equation}
+

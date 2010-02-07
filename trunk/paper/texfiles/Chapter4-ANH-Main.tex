@@ -1,0 +1,31 @@
+\normalsize
+\section{Adjustable Non-hydrostatics}
+
+It's a natural thought that if the non-hydrostatic elliptic equation is computationally expensive, why not solving it partially? However, solving the elliptic equation partially means that the continuity equation will have ineligible residuals, this will further affect the conservation of other properties that are computed based on the velocities. A subsequent thought suggests that this problem can be circumvented by using the correction of Equation \ref{eqn:w-correction-hydrostatic}, which is ordinary in hydrostatic models.
+
+After the non-hydrostatic pressure is partially solved to meet some user-specified criteria, the horizontal velocities are thus partially corrected,
+\begin{equation}
+u^{n+1}=u^*-\frac{\Delta t}{\rho} \frac{\partial
+P_d^{n+1}}{\partial x} ,\hspace{0.15in}
+v^{n+1}=v^*-\frac{\Delta t}{\rho} \frac{\partial
+P^{n+1}_d}{\partial y}
+\end{equation}
+Then the hydrostatic correction of the vertical velocity is called,
+\be
+w_{\xi} = -\int_{-d}^{\xi} \di u dz
+\ee
+or in the staggered-grid discretization,
+\be
+w_{i,j,k+\f{1}{2}}=-\sum_{k'=1}^k \left[\f{u_{i+\f{1}{2},j,k'}-u_{i-\f{1}{2},j,k'}}{\Delta x}+
+\f{v_{i,j+\f{1}{2},k'}-v_{i,j-\f{1}{2},k'}}{\Delta y}\right] \Delta z
+\ee
+
+To avoid the repeated computations, the vertical velocity can be corrected beginning from the bottom to the surface level,
+\be
+w_{i,j,k+\f{1}{2}}=- \left[\f{u_{i+\f{1}{2},j,k}-u_{i-\f{1}{2},j,k}}{\Delta x}+
+\f{v_{i,j+\f{1}{2},k}-v_{i,j-\f{1}{2},k}}{\Delta y} -\f{w_{i,j,k-\f{1}{2}}}{\Delta z} \right] \Delta z
+\label{eqn:hydrostatic-correction}
+\ee
+
+The stopping criteria of the non-hydrostatic pressure iterations can be a minimum of iteration steps or/and tolerance of divergence error. The correction of vertical velocities from the continuity equation will satisfy the incompressibility constraint even though the non-hydrostatic pressure is not completely solved, providing a flexible option between hydrostatic and non-hydrostatic modeling.
+

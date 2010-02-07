@@ -1,0 +1,31 @@
+\normalsize
+\section{Receding Boundary Method - An Approximate Domain Decomposition Method}
+
+In chapter 4, The receding boundary method (RBM) is proposed as an new approximate domain decomposition technique for computational geophysical flows. While dividing the computational domain into smaller subdomains, RBM enables the independent approximate solution of each subdomain by open boundary conditions, and minimizes the errors by a grid-receding strategy. The receding boundary method assumes a open boundary condition on the subdomain boundaries. This allows the pressure-Poisson equation in each subdomain to be independently solved. However, this open boundary condition will result in errors for the velocities normal to the boundaries. To minimize the error of this assumption, each subdomain boundary moves inward for a few time steps and then reset to each original position. This prevents the repeated use of the open boundary condition on the same location and decreases the inward transport of errors because the information outside the receding boundaries is discarded.
+
+Computational complexity, sometimes referred as the operation counts, is the number of computational steps (multiplication, division, addition, or substraction) required for a given input size of problem \cite{Hartmanis1965, Papadimitriou1994}. This computational complexity can provide some level of insight, but the actual computation time cannot be easily concluded. For incompressible flow simulations, solving the pressure-Poisson equation is usually more time-consuming than computing the advection, diffusion, or dispersion, and may be the bottleneck as mentioned by Shen \cite{Shen04} and Stansby \cite{Stansby1998}. Table \ref{tab:complexity} \cite{Demmel1997} lists the order of complexity of several algorithms for the Poisson equation with input size of order $N$. It can be seen that the multigrid method has the least order of complexity for serial computation, but not for the model of Parallel Random Access Machine (PRAM). This may provide some hints why the multigrid method is not competitive with the fast fourier transform for large scale multiple processor computation. Because the solution of the Poisson equation with fast fourier transform usually requires special geometries, the multigrid method is favored for more general problems. This inspired the development of the receding boundary method to reduce the communication between subdomains.
+
+\cp
+
+\begin{table}[hbtp]%[hbtp]
+\small
+\begin{center}
+\caption{Computational complexities \cite{Demmel1997}.}
+\begin{tabular}{ccccc} \hline
+   Algorithm  &  Serial  &  PRAM  &  Storage  &  Number of Processors \\ \hline
+Dense LU      &   $N^3$   &  $N$            & $N^2$     & $N^2$ \\
+Elemental Solution Superposition\footnotemark[1]         &   $N^2$   &  $N$            & $N^2$ & $N$   \\
+Band LU     &   $N^2$   &  $N$            & $N^{3/2}$ & $N$   \\
+Jacobi      &   $N^2$   &  $N$            & $N$       & $N$   \\
+Sparse LU   & $N^{3/2}$ & $N^{1/2}$       & $N \cd log N$ & $N$   \\
+CG          & $N^{3/2}$ & $N^{1/2} \cd log N$ & $N$       & $N$   \\
+Optimized SOR         & $N^{3/2}$ & $N^{1/2}$       & $N$       & $N$   \\
+FFT         & $N \cd log N$ & $log N$         & $N$       & $N$   \\
+Multigrid   & $N$       & $(log N)^2$     & $N$       & $N$   \\
+Lower Bound & $N$       & $log N$         & $N$       &       \\ \hline
+ \end{tabular}
+ \label{tab:complexity}
+ \end{center}
+ \end{table}
+\footnotetext[1]{The method of elemental solution superposition is included in the Appendix. }
+

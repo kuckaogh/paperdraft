@@ -1,0 +1,256 @@
+\normalsize
+\section{Scalar Transport by Constrained Interpolation Profile Method}
+%\section{Scalar Transport by Constrained Interpolation Profile Method for Staggered Grid}
+
+The constrained interpolation profile (CIP) method\cite{Yabe1991A, Yabe1991B, Yabe01} is modified for the staggered grids to compute the transport equation. The CIP method was originally proposed for the finite difference colocated grids, where the velocities are defined on the same locations as the scalar variables. When the CIP method is applied for the staggered grids, the advection velocities and the scalar variables are not on the same locations. The average of the neighboring velocities can be chosen as the advection velocities, however, this will underestimate the spatial variations of the velocities and thus underestimate the transport quantity. An modified equation for the CIP advection velocities is proposed for staggered grids.
+
+\begin{equation}
+\frac {\partial f}{\partial t} + u \frac {\partial f}{\partial
+x}=0
+\end{equation}
+The solution of the above equation is $f(x,t+dt)=f(x-udt,t)$, provided
+that the velocity is constant; otherwise, the time evolution of
+the scalar field $f$ can be approximated numerically as $f(x,t+dt)
+\backsim f(x-udt,t)$.
+To preserve the information between grid points, Yabe et al.\cite{Yabe1991A, Yabe1991B, Yabe01} use a cubic spline to construct a continuous scalar field $F$ between the grid points. At the grid points $ x_i $ and $x_{iup}$, the cubic spline is designed to satisfy $F(x_i)=f(x_i)$ , $F(x_{i up})=f(x_{iup})$ ,
+$F'(x_i)=f'(x_i)$ , and $F'(x_{iup})=f'(x_{iup})$. Therefore, we
+have:
+\begin{equation}
+F(x)=ax^3+bx^2+cx+d
+\end{equation}
+\begin{equation}
+a_i=\frac{f'(x_i)+f'(x_{iup})}{D^2}+\frac{2[f(x_i)-f(x_{iup})]}{D^3}
+\end{equation}
+\begin{equation}
+b_i=\frac{3[f(x_{iup})-f(x_i)]}{D^2}-\frac{2f'(x_i)+f'(x_{iup})}{D^3}
+\end{equation}
+\begin{equation}
+c=f'(x_i),  d=f(x_i)
+\end{equation}
+where $D=-\Delta x$, $iup=i-1$ for $u\geq 0$; $D=\Delta x$,
+$iup=i+1$ otherwise.
+
+After the scalar field is constructed between grid points,
+the CIP method carries the scalar field along with the flow velocity,
+\begin{equation}
+f^{n+1}(x_i)=F(x_i-u \Delta t)
+\end{equation}
+\begin{equation}
+f'^{n+1}(x_i)=\partial F(x_i-u \Delta t)/ \partial x
+\end{equation}
+or,
+\begin{equation}
+f^{n+1}(x_i)=a_i(-u\Delta t)^3+b_i(-u\Delta t)^2+f'(x_i)(-u\Delta
+t)+f(x_i)
+\label{eqn:advect-f}
+\end{equation}
+\begin{equation}
+f'^{n+1}(x_i)=3a_i(-u\Delta t)^2+2b_i(-u\Delta t)+f'(x_i)
+\label{eqn:advect-dfdx}
+\end{equation}
+
+For the two-dimensional transport equation with source terms:
+\begin{equation}
+\frac {\partial f}{\partial t} + u \frac {\partial f}{\partial x}+
+v \frac {\partial f}{\partial y}=s(x,y,t) \label{equ:2Dfadvection}
+\end{equation}
+A two-step procedure with the non-advection step and the advection
+step is used. The scalar $f$ is first integrated to the intermediate value $f^*$ using the source term $s_i$ before the cubic interpolation. Then the interpolation function is constructed between grid points and the scalar is advected.
+\begin{equation}
+f^*=f^n+ s \Delta t \label{equ:fnonadvection}
+\end{equation}
+\begin{equation}
+f^{n+1}=F(x-u\Delta t, y-v\Delta t)
+\end{equation}
+The interpolation function $F_{i,j}(x,y)$ is designed to satisfy the continuity
+of $f$, ${\partial f/\partial x}$, ${\partial f/\partial y}$ at
+$x_{i,j}, x_{i+1,j}$, $x_{i,j+1}$ and $f$ at $ x_{i+1,j+1} $.
+The continuity at $ x_{i+1,j+1} $ can be improved by
+using higher order polynomials as suggested by Aoki:
+\begin{eqnarray}
+F_{i,j}(x,y)=C_{3,0}(x-x_i)^3+C_{2,0}(x-x_i)^2+C_{1,0}(x-x_i)+C_{0,0}\nonumber \\
++\ C_{0,3}(y-y_i)^3+C_{0,2}(y-y_i)^2+C_{0,1}(y-y_i)\nonumber \\
++\ C_{3,1}(x-x_i)^3(y-y_i)+C_{2,1}(x-x_i)^2(y-y_i)\nonumber \\
++\ C_{1,1}(x-x_i)(y-y_i)+C_{1,2}(x-x_i)^1(y-y_i)^2\nonumber \\
++\ C_{1,3}(x-x_i)(y-y_i)^3
+\end{eqnarray} %The $C$ coefficients can be solved from the continuity of $f$ and $\partial f/\partial t $ at the four grid points $x_{i,j}$ , $x_{i+1,j}$ , $x_{i,j+1}$ , and $x_{i+1,j+1}$.
+The spatial derivatives of the scalar $f$ can as well be advected by the CIP method.
+The transport equation for the spatial derivatives of $f$ can be derived from Equation \ref{equ:2Dfadvection} as:
+\begin{equation}
+\frac {\partial}{\partial t}(\frac{\partial f}{\partial x})  + u
+\frac {\partial}{\partial x}(\frac {\partial f}{\partial x})+ v
+\frac {\partial}{\partial y}(\frac {\partial f}{\partial x})=
+-\frac {\partial u}{\partial x}\frac {\partial f}{\partial x}
+-\frac {\partial v}{\partial x}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial x}
+\end{equation}
+\begin{equation}
+\frac {\partial}{\partial t}(\frac{\partial f}{\partial y})  + u
+\frac {\partial}{\partial x}(\frac {\partial f}{\partial y})+ v
+\frac {\partial}{\partial y}(\frac {\partial f}{\partial y})=
+-\frac {\partial u}{\partial y}\frac {\partial f}{\partial x}
+-\frac {\partial v}{\partial y}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial y}
+\end{equation}
+The same two-step procedure can be applied on $\partial f/\partial x$ and $\partial f/\partial y$. The first step is:
+\begin{equation}
+(\frac{\partial f}{\partial x})^*=(\frac{\partial f}{\partial
+x})^n+ (-\frac {\partial u}{\partial x}\frac {\partial f}{\partial
+x} -\frac {\partial v}{\partial x}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial x})^n \Delta t
+\label{equ:dfdxnonadvection}
+\end{equation}
+\begin{equation}
+(\frac{\partial f}{\partial y})^*=(\frac{\partial f}{\partial
+x})^n+ (-\frac {\partial u}{\partial y}\frac {\partial f}{\partial
+x} -\frac {\partial v}{\partial y}\frac {\partial f}{\partial y}+
+\frac{\partial s}{\partial y})^n \Delta t
+\label{equ:dfdynonadvection}
+\end{equation}
+where the spatial derivatives of the source term are
+approximated from Equation \ref{equ:fnonadvection} as:
+\begin{equation}
+\frac{\partial s}{\partial x}
+=\frac{(f_{i+1,j}^*-f_{i-1,j}^*)-(f_{i+1,j}^n-f_{i-1,j}^n)
+}{2\Delta x\Delta t}
+\end{equation}
+\begin{equation}
+\frac{\partial s}{\partial y}
+=\frac{(f_{i,j+1}^*-f_{i,j-1}^*)-(f_{i,j+1}^n-f_{i,j-1}^n)
+}{2\Delta x\Delta t}
+\end{equation}
+followed by the advection step with the cubic spline $G_x$ and
+$G_y$ constructed from $(\partial f/\partial x)^*$ and $(\partial
+f/\partial y)^*$,
+\begin{equation}
+(\frac{\partial f}{\partial x})^{n+1}=G_x(x-u\Delta t, y-v\Delta
+t, t-\Delta t)
+\end{equation}
+\begin{equation}
+(\frac{\partial f}{\partial y})^{n+1}=G_y(x-u\Delta t, y-v\Delta
+t, t-\Delta t)
+\end{equation}
+The CIP technique can be extended to three dimensional case,
+\begin{equation}
+\frac{\partial \textbf{F}}{\partial t}+\textbf{u}\cdot \nabla
+\textbf{F}=\textbf{S}
+\end{equation}
+\begin{equation}
+\textbf{F}=
+\begin{pmatrix}
+f \\ \partial f/\partial x \\ \partial f/\partial y \\ \partial f/\partial z \\
+\end{pmatrix}
+\end{equation}
+\begin{equation}
+\textbf{S}=
+\begin{pmatrix}
+0
+\\ -\partial u /\partial x \cdot \partial f/\partial x-\partial v /\partial x \cdot \partial f/\partial
+y-\partial w /\partial x \cdot \partial f/\partial z
+\\ -\partial u /\partial y \cdot \partial f/\partial x-\partial v /\partial y \cdot \partial f/\partial
+y-\partial w /\partial y \cdot \partial f/\partial z
+\\ -\partial u /\partial z \cdot \partial f/\partial x-\partial v /\partial z \cdot \partial f/\partial
+y-\partial w /\partial z \cdot \partial f/\partial z
+\end{pmatrix}
+\end{equation}
+
+\subsubsection*{Modified Advection Velocities for Staggered Grids}
+
+Three versions of approximations to the advection velocities are proposed for staggered grid:
+\ba
+u^a_{i}&=&\beta \ Sign(u_{i-1/2}+u_{i+1/2}) \ Max( |u_{i-1/2}|,|u_{i+1/2}|)\nn \\
+&+&(1-\beta) \frac{u_{i-1/2}+u_{i+1/2}}{2}
+\ea
+
+\begin{eqnarray}
+u^a_{i}&=&
+\beta \ Sign(u_{i-1/2})\ Max( |u_{i-1/2}|,|u_{i+1/2}|) \nonumber \\
+&+& (1-\beta) \frac{u_{i-1/2}+u_{i+1/2}}{2}
+\hspace{0.8in}  If \ u_{i-1/2}u_{i+1/2} \geq 0 \nonumber \\
+u^a_{i}&=& \frac{u_{i-1/2}+u_{i+1/2}}{2} \hspace{1.5in} Otherwise
+\end{eqnarray}
+
+\begin{eqnarray}
+u^a_{i}&=&
+\beta \ Sign(u_{i-1/2})\ Max( |u_{i-1/2}|,|u_{i+1/2}|) \nonumber \\
+&+& (1-\beta) \frac{u_{i-1/2}+u_{i+1/2}}{2}
+\hspace{0.8in}  If \ u_{i-1/2}u_{i+1/2} \geq 0 \nonumber \\
+u^a_{i}&=& 0 \hspace{1.5in} Otherwise
+\label{eqn:CIP-modified-beta}
+\end{eqnarray}
+
+
+\noindent where $\beta$ is a parameter between $0$ and $1$ to adjust the diverseness of advection velocities. If $\beta = 0$, the advection velocities are simply the average of the neighboring values; if $\beta = 1$, then the advection velocities are chosen to be the greater of the neighboring values.
+
+\subsection*{Property Conservation}
+
+A weak conservation technique is proposed to partially offset the loss or gain of the scalar transported by the CIP method:
+\be
+f^{n+1} = f^{n} + r(f^{*}-f^{n})
+\ee
+\be
+r =  1-sign(f^{*}-f^{n})\left[\left(\f{\sum_i f^{*}}{\sum_i f_o}\right)^c-1\right]
+\ee
+where $f^{n}$ is the scalar at the previous time step, $f^*$ is the intermediate result, $\sum_i f_o$ is the reference sum, and $c$ is a user specified parameter ( $c\geq 0$)
+
+%   ff(i,m,j) = ff(i,m,j) + (ff(i,m,j)-ff_0(i,m,j))*(1.0d0-total/total_ref)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\abstract{
+%The scalar transport is modeled by the advection of the mean velocity field and dispersion due to the velocity deviations. However, it has been known that the dispersion coefficient is more pronounced in the direction of the flow than the direction perpendicular to the flow. Therefore the use of dispersion coefficient involves the judgement of the flow direction; when the flow direction is not parallel to the established grid coordination, complicated procedure will also involved. Moreover, the dispersion coefficient is also depend on the field scale.
+%We propose a method to evaluate the scalar transport as an simpler alternative to the traditional method.
+%  for turbulent flow the advection term is difficult to be evaluated because of the velocity deviations. the usually evaluated after the velocity field computation has been done. However, for turbulent flow, the scalar transport is usually modeled by
+%A modification of CIP method for staggered grid is proposed.
+%}
+
+
+
+
+
+% For two-dimensional case, the scalar variables are defined in the center of the cell, the x-direction velocity at the middle of vertical cell edges, and the z-direction velocity at the middle of the horizontal cell edges. Because the velocities in the x and z directions are not stored at the same locations as the scalar variables, an approximation equation for the advection velocities is proposed
+
+\begin{comment}
+The transport equation for some scalar $f$ without source term is:
+\begin{equation}
+\frac {\partial f}{\partial t} + u \frac {\partial f}{\partial x}+
+w \frac {\partial f}{\partial z}=0 \label{equ:2Dfadvection}
+\end{equation}
+
+The CIP method solves the above equation by first using a cubic spline to construct a continuous scalar field $F$ between the grid points, and then carry this scalar field along with the advection velocities $u^a$ and $w^a$:
+\begin{equation}
+f(x, y, t+ \Delta t) = F(x-u^a \Delta t, y-w^a \Delta t, t)
+\end{equation}
+
+
+
+all the $C$ coefficients are computed from:
+\begin{eqnarray}
+ \frac{\partial F}{\partial x}_{(i,j)}=\frac{\partial f}{\partial
+x}^*_{(i,j)}; \frac{\partial F}{\partial
+x}_{(iup,j)}=\frac{\partial f^*}{\partial x}_{(iup,j)};
+\frac{\partial F}{\partial x}_{(i,jup)}=\frac{\partial
+f^*}{\partial x}_{(i,jup)}; \nonumber \\
+ \frac{\partial F}{\partial y}_{(i,j)}=\frac{\partial f}{\partial
+y}^*_{(i,j)}; \frac{\partial F}{\partial
+y}_{(iup,j)}=\frac{\partial f^*}{\partial y}_{(iup,j)};
+\frac{\partial F}{\partial y}_{(i,jup)}=\frac{\partial
+f^*}{\partial y}_{(i,jup)}; \nonumber \\
+F_{(i,j)}=f^*_{(i,j)}; F_{(iup,j)}=f^*_{(iup,j)};
+F_{(i,jup)}=f^*_{(i,jup)}; F_{(iup,jup)}=f^*_{(iup,jup)};
+\end{eqnarray}
+\end{comment} 

@@ -1,0 +1,11 @@
+\chapter{Other Numerical Techniques - Local Elemental Solution Superposition and Boundary Volume Method}} \label{chapter:Local-ESS}
+
+\section{Local Elemental Solution Superposition}
+
+The method of elemental solution superposition can be used to construct the solution of pressure Poisson equation arising from the primitive variables formulation for incompressible flows. However, the complexity for constructing the whole domain solution is $O(N^2)$, which is more expensive compared with $O(N)$ for the multigrid method and $O(N\ log \ N)$ for the fast fourier transform. To reduce the complexity of the superposition method, the whole domain is decomposed into subdomains and the solution is constructed only on the interfaces shared by neighboring subdomains. To further reduce the complexity, the solution is approximated locally, i.e., only the source terms from neighboring nodes contribute to the solution on the interface. After the pressure Poisson solution is constructed on the interface, each subdomain can be solved independently with the newly constructed boundary values.
+
+
+\input{DOM-ESS-Main}
+
+
+

@@ -1,0 +1,29 @@
+\normalsize
+\section{Free-Surface, Rigid-Lid, and Quasi-Free-Surface Models}
+\subsection*{Free-Surface Model}
+Free surface simulations \cite{Scardovelli1999} can be categorized into the fixed-grid method, the moving-grid method, and the particle methods.
+In the moving-grid method, the interface between different phases is defined by the grid and thus re-gridding may be required once the interface moves. Complication occurs when the interface undergoes large deformations.
+In the fixed-grid method, the interface can be tracked by the massless markers \cite{Harlow1965}; by the level-set method \cite{Sussman1994}, which updates the distances from the grid points to the interface; or by the volume-of-fluid method \cite{Noh1976, HIRT1981, Li1995, Rider1998}, which solves the transport equation of the volume fraction and then reconstructs the interface.
+Particle methods such as the smoothed particle hydrodynamics \cite{Monaghan1994} and the moving particle semi-implicit \cite{Koshizuka1998} can carry all the information with the particles and hence obviate the need for computational grid.
+
+\subsection*{Rigid-Lid Model}
+The rigid-lid model \cite{Marshall1997} treats the surface level constant and neglects the fluid velocity normal to the surface boundary.
+\be
+\+u \cdot n = 0
+\ee
+where $n$ is a unit vector normal to the surface boundary. This can be achieved by the similar technique that is used to enforce the continuity equation of the incompressible model. A pressure field is solved to satisfy the above assumption. The solution of this pressure field generally takes less time than that of the hydrodynamic pressure, because there is one less dimension to solve for. The advantage of the rigid-lid assumption is the simple implementation because there is no surface to track; and the high-frequency surface gravity wave can be filtered out, which reduces the system stiffness.
+
+
+\subsection*{Quasi Free-Surface Model}
+To simplify the computation for mild free-surface flows, a fixed grid with a separate function that tracks the water surface level is implemented. The surface level is assumed to have small variations from the computational grid of the top layer. The change of surface level is evaluated by integrating the continuity equation from the bottom layer($z=-d$) to the top layer($z=0$):
+\begin{equation}
+\frac{\partial h}{\partial t}+\frac{\partial}{\partial
+x}(\int^{0}_{-d} udz)+\frac{\partial}{\partial y}(\int^{0}_{-d}
+vdz)=0 \label{continuity-surface}
+\end{equation}
+Compared with the full free-surface models, the advantage is that the surface level is computed with the simplicity of fixed grids, avoiding the complexity of those surface-tracking techniques; the disadvantage is that the accuracy degrades with the increase surface variations from the top layer.
+
+%MPS solves the non-hydrostatic pressure to enforce the continuity equation for incompressible flows
+%\input{Particle_Methods}
+
+

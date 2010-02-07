@@ -1,0 +1,17 @@
+\normalsize
+\section{Adjustable Non-hydrostatic Method - An Approximate Technique for Incompressible Flow Simulations}
+\label{chapter:Introduction-ANH}
+Computational fluid dynamics in geophysical flows can be categorized into hydrostatic and non-hydrostatic modeling. As pointed out by Marshall \cite{Marshall1997}, while the hydrostatic assumption can accurately describe the large scale global circulation ($\sim$1000 km) and geographic eddies ($\sim$10-100 km), may face challenge for smaller scale phenomena ($<$10 km). Such as tidal-stirring instabilities, sharp bathymetric slopes \cite{Friedrichs1996}, abrupt change of suspended particulate matter related thermohaline stratification \cite{Fain2001}, and turbulent flows driven by wind and buoyancy. Besides, with the need of ocean-atmospheric coupled model for better weather forecasting \cite{Bao1999, wang05} and the progress of remote sensing technology using radar interferometry \cite{Toporkov05}, high-resolution non-hydrostatic modeling in geophysical flows is provided with justifiable grounds.
+
+However, Wadzuk \cite{Wadzuk04} mentioned that a non-hydrostatic model requires a grid with an aspect ratio ($\Delta z /\Delta x$) of at least $O(10^{-2})$, which is about ten times that of a hydrostatic model \cite{Marshall1997}. If the vertical resolution is fixed and the computation time step is estimated by the Courant-Friedrichs-Lewy condition \cite{Courant1967}($u \Delta t/\Delta x \leq 1$), then the operations for the non-hydrostatic model with horizontally increased resolution will be of the order of a thousand times of a hydrostatic model, not yet including the solution of elliptic equations that arise from the continuity constraint, whose computation might be the most expensive part. Therefore, reducing the computation time for non-hydrostatic model is a desired direction for practical applications.   %The differences between hydrostatic and non-hydrostatic modeling of internal wave evolution is quantified by Wadzuk\cite{Wadzuk04}.
+
+To reduce the computational effort for non-hydrostatic models, the general approaches include solving the non-hydrostatic pressure only when necessary \cite{Janjic01} and decreasing the resolution of the non-hydrostatic pressure \cite{Reeuwijk02}.
+
+In chapter \ref{chapter:ANH}, the adjustable non-hydrostatic method is proposed for numerical simulations of geophysical flows. This method combines the partial computation of non-hydrostatic pressure and the continuity correction of hydrostatic models. The number of iterations or the accuracy of the non-hydrostatic pressure computation are adjustable, providing the flexibility to balance the accuracy requirement and the computational cost.
+
+%\abstract{
+%A weighting average of the hydrostatic vertical density distribution model and the reduced gravity model is proposed. This combination is called the flexible baroclinic model. A weighting parameter can be adjusted for the modeling requirements. When the vertical structure is pronounced, the model can be shifted to the reduced gravity model; otherwise the hydrostatic vertical density distribution can be assumed to some extent and therefore the pressure Poisson equation can be solved with fewer iterations.
+%}
+
+
+

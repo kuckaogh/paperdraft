@@ -1,0 +1,80 @@
+\normalsize
+\section{Hydrodynamic Pressure}
+The central-difference discretization of the pressure Poisson equation is:
+{\small
+\be
+\frac{P_{i+1,j,k}-2P_{i,j,k}+P_{i-1,j,k}}{\Delta
+x^2}+\frac{P_{i,j+1,k}-2P_{i,j,k}+P_{i,j-1,k}}{\Delta
+y^2}+\frac{P_{i,j,k+1}-2P_{i,j,k}+P_{i,j,k-1}}{\Delta z^2}
+= M_{i,j,k}
+\ee
+\be
+M_{i,j,k}=\frac{\rho}{\Delta t} ( \frac{u_{i+1/2,j,k}^*-u_{i-1/2,j,k}^*}{\Delta
+x}+\frac{v_{i,j+1/2,k}^*-v_{i,j-1/2,k}^*}{\Delta
+y}+\frac{w_{i,j,k+1/2}^*-w_{i,j,k-1/2}^*}{\Delta z})
+\ee
+}
+\normalsize
+The Gauss-Seidel method with successive over relaxation is used to solve this equation. The iterated pressure is simply the weighted average of the neighboring values and the source term $M$,
+{\small
+\be
+P_{i,j,k} = \f{1}{\kappa}(\frac{P_{i+1,j,k}+P_{i-1,j,k}}{\Delta x^2}
++\frac{P_{i,j+1,k}+P_{i,j-1,k}}{\Delta y^2}
++\frac{P_{i,j,k+1}-P_{i,j,k-1}}{\Delta z^2}
+- M_{i,j,k})
+\label{eqn:SOR-pressure}
+\ee
+\be
+\kappa=(\frac{2}{\Delta x^2}+\frac{2}{\Delta y^2}+\frac{2}{\Delta
+z^2})
+\ee
+}
+\normalsize
+Consider a more general case where the density is not constant,
+{\small
+\be
+(\n^2 -\f{1}{\rho}\n \rho \cdot \n)P_{d}^{n+1}
+=\f{\rho}{\Delta t}\n \cdot u^*
+\ee} \normalsize
+With central differencing, it can be written as the following:
+{\small
+\ba
+\frac{P_{i+1,j,k}-2P_{i,j,k}+P_{i-1,j,k}}{\Delta x^2}+\frac{P_{i,j+1,k}-2P_{i,j,k}+P_{i,j-1,k}}{\Delta y^2}\nn \\ +\frac{P_{i,j,k+1}-2P_{i,j,k}+P_{i,j,k-1}}{\Delta z^2}
+ = \f{1}{\rho_{i,j,k}}[\f{\rho_{i+1,j,k}-\rho_{i-1,j,k}}{2\Delta x} \cd \f{P_{i+1,j,k}-P_{i-1,j,k}}{2\Delta x}\nn \\
++\f{\rho_{i,j+1,k}-\rho_{i,j-1,k}}{2\Delta y} \cd \f{P_{i,j+1,k}-P_{i,j-1,k}}{2\Delta y}
++\f{\rho_{i,j,k+1}-\rho_{i,j,k-1}}{2\Delta z} \cd \f{P_{i+1,j,k}-P_{i-1,j,k}}{2\Delta z}] \nn \\
+- \frac{\rho_{i,j,k}}{\Delta t} ( \frac{u_{i+1/2,j,k}-u_{i-1/2,j,k}}{\Delta
+x}+\frac{v_{i,j+1/2,k}-v_{i,j-1/2,k}}{\Delta
+y}+\frac{w_{i,j,k+1/2}-u_{i,j,k-1/2}}{\Delta z})
+\ea
+}
+or,
+{\small
+\ba
+\frac{r_x P_{i+1,j,k}-2P_{i,j,k}+ r_x P_{i-1,j,k}}{\Delta
+x^2}
++\frac{r_y P_{i,j+1,k}-2P_{i,j,k}+r_y P_{i,j-1,k}}{\Delta
+y^2}
+\\ \nonumber
++\frac{r_z P_{i,j,k+1}-2P_{i,j,k}+r_z P_{i,j,k-1}}{\Delta z^2}
+-M_{i,j,k}=0
+\ea
+}
+where
+{\small \be
+r_x = 1 - \f{1}{2}(\f{1}{\rho_{i,j,k}}\cd
+\f{\rho_{i+1,j,k}-\rho_{i-1,j,k}}{2\Delta x})
+\ee} \normalsize
+After rearranged,
+{\small
+\ba
+P_{i,j,k} = \f{1}{\kappa} \ [ \
+\f{r_x}{\Delta x^2}(P_{i+1,j,k}+P_{i-1,j,k})
++\f{r_y}{\Delta y^2}(P_{i,j+1,k}+P_{i,j-1,k})
+\nonumber \\
++\f{r_z}{\Delta z^2}(P_{i,j,k+1}+P_{i,j,k-1})
+- M_{i,j,k} \ ]
+\ea
+}
+If the density gradient is negligible, the parameters $r_x$, $r_y$, $r_z$ will be unity and the above equation will be the same as Equation \ref{eqn:SOR-pressure}.
+

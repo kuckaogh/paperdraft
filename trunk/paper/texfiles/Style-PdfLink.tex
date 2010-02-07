@@ -1,0 +1,37 @@
+\usepackage{color}
+\definecolor{mmblue}{rgb}{0,0,0.55}
+\definecolor{mmred}{rgb}{0.65,0,0}
+\definecolor{mmgreen}{rgb}{0,0.55,0}
+%\usepackage[pdftex,pagebackref=true,pdfpagelabels]{hyperref}
+\usepackage{nameref}
+\usepackage{kvoptions}
+\usepackage[pdftex,pdfpagelabels]{hyperref}
+\hypersetup{
+        %plainpages=true,
+        %bookmarks=true,% default, not necessary to specify
+        %breaklinks=true,% default in pdf mode
+        bookmarksopen=true,
+        bookmarksopenlevel=2,
+        bookmarksnumbered=true,
+        pdfauthor = {Kao, Kuo-Cheng},
+        pdftitle = {Title of docment},
+        pdfsubject = {Dissertation},
+        pdfkeywords = {Keyword1, Keyword2, ...},
+        pdfcreator = {},
+        pdfproducer = {},
+        pdfstartview={FitV},
+        pdfpagemode={UseOutlines},
+        %hypertexnames=false,
+        pageanchor=true,
+        colorlinks=true,
+        linkcolor={mmblue},
+        citecolor={mmred},
+        urlcolor={mmgreen},
+        %pagecolor={cyan},
+        %anchorcolor={red},
+        %filecolor = mmred
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\addcontentslin#1#2#3{%
+  \addtocontents{#1}{\protect\contentsline{#2}{#3}{}{chapter*.6}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 

@@ -1,0 +1,17 @@
+\normalsize
+\section{Summary}
+The numerical tests of the standing wave, solitary wave and gravity current are performed to verify the numerical model so it can be used to test the proposed adjustable non-hydrostatics method and the receding boundary method.
+
+The analytical solution of the standing wave in a closed basin \cite{LeBlond1978} \cite{Jankowski1999} is used to quantify the velocity and pressure errors and the grid convergence. The analytical solution of solitary wave propagation in a horizontal channel \cite{Laitone1960} \cite{Ramaswamy1990} \cite{Jankowski1999} demonstrates the practicability of the quasi-free-surface simulations. The gravity current experiment \cite{Maxworthy02} is compared with the numerical simulations qualitatively to show the verisimilitude. The gravity current simulations are also tested with different spatial discretizations, different time integration schemes, different modified CIP parameters, and different viscosity coefficients. The spatial discretizations include staggered and colocated grids; the time integration schemes include the forward Euler, the 4th-Order Runge-Kutta, and the 4-step 3rd-Order Strong-Stability-Preserving Runge-Kutta; and the viscosity coefficient is varied from $10^{-5} (m^2/s)$ to $10^{-7} (m^2/s)$.
+
+The test results show that this model performs satisfactory and is adequate for the demonstrations of proposed numerical methods in this thesis, viz, the adjustable non-hydrostatics method in Chapter \ref{chapter:ANH} and the receding boundary method in Chapter \ref{chapter:RBM}.
+
+
+
+
+\begin{comment}
+The standing wave test and solitary wave test resulted in fair approximations to the analytical solutions. The grid convergence of standing wave test is achieved and the error is shown to reduced as $O(\Delta x ^ {1.2})$. The  gravity current simulations are shown to agree with the experimental fitting curves of $Fr(R)$.
+
+
+ which is satisfactory but not as good as that of the second order spatial discretization. This reduction of the order of accuracy might be due to the complication associated with the free surface modeling. Because the objective of this model development is to provide a simple test ground for the feasibility of the two proposed methods, the improvement of the model accuracy will be left as future research work.
+\end{comment} 

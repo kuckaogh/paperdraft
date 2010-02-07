@@ -1,0 +1,25 @@
+\chapter{Conclusion}
+
+\section{Innovative Numerical Methods}
+
+The numerical simulation of Lake Michigan with the inclusion of tributaries and the connection with Lake Huron has motivated the exploration of the receding boundary method for domain decomposition, the sequential regularization method for domain decomposition, and the adjustable non-hydrostatics method as an alternative treatment for the incompressibility assumptions.
+
+
+An incompressible unsteady non-hydrostatic flow model is constructed in Chapter \ref{chapter:FlowModel} to realize the proposed numerical methods. The governing equation is based on the Navier-Stokes equation. The spatial discretization uses both staggered and colocated arrangements in structural rectangular grids. The quasi-free-surface is implemented with a separate tracking function. The time integration uses forward Euler, 4th-order Runge-Kutta, and the 4-step 3rd-order Strong-Stability-Preserving Runge-Kutta method. The pressure-Poisson equation is solved with the iterative SOR and the multigrid methods. The velocity advection and diffusion terms are discretized with the central difference method. The scalar transport is computed with the CIP method \cite{Yabe1991A, Yabe1991B, Yabe01}.
+
+
+The adjustable non-hydrostatics method presented in Chapter \ref{chapter:ANH} is an approximate technique for numerical simulations of incompressible geophysical flows.
+For geographical flow simulation, the incompressible assumption in numerical models is generally employed and results in elliptic equations to solve. For non-hydrostatic model with primitive variable formulations, this elliptic pressure Poisson equation can be the most computationally expensive part of the simulation \cite{Shen04, Stansby1998}.
+This proposed method is an alternative approach for alleviating the computation burden associated with the incompressible assumption. It combines the hydrodynamic pressure computation and the vertical velocity correction from the continuity equation. The hydrodynamic pressure is first approximated by partially solving the pressure-Poisson equation to partially correct the velocity field, then the vertical velocity is corrected from the continuity equation. The number of iterations or the residuals of the non-hydrostatic pressure computation can be adjustable, providing the flexibility to balance the hydrodynamic effect modeling and the computational cost. The example of gravity current simulations turns out to be encouraging, however, a more rigorous analysis is needed in the future study to better understand the performance of this technique.
+
+
+The sequential regularization method for domain decomposition in Chapter \ref{chapter:SRM-DDM} extends the concept of mixing explicit and implicit schemes to seek both stability and simplicity.
+The numerical model inside each subdomain starts
+computation independently as soon as the subdomain boundary conditions provided by the explicit scheme are available.
+The combined surface wave and gravity current is implemented with this proposed domain decomposition method of two subdomains. The simulation result shows that the explicit interface computation does communicate with both subdomains. A further improved version is developed as the receding boundary method.
+
+
+The receding boundary method introduced in Chapter \ref{chapter:RBM} is an innovative approximate domain decomposition method for incompressible geophysical flows. This method assumes open boundary conditions on the subdomain boundaries and utilizes an overlapping, receding grid strategy to enable the independent solution of each subdomain. This strategy reduces open boundary assumption errors on the subdomain interfaces. After a few steps of receding, those subdomain boundaries are reset to the initial locations. A gravity current example with two overlapping subdomains is demonstrated to show the feasibility of the receding boundary method.
+
+
+\input{Chapter7-Conclusions-Research} 

@@ -1,0 +1,117 @@
+\normalsize
+\section{Incompressible Assumptions in Simulating Geophysical Flows}
+
+The Navier's equation \cite{Wilcox2003} can be derived from the conservation of momentum:
+\begin{equation}
+\rho \f{D \+u}{D t}=\di \+{\+\sigma} + \rho \+f
+\end{equation}
+where \\
+$\rho$ is the density, \\
+$\+u $ is the velocity vector, \\
+$\+f $ is the body force vector, and \\
+$\+{\+\sigma} $ is the stress tensor that can be decomposed into the viscous stress tensor $\+{\+\tau} $ and the pressure, \\
+\begin{equation}
+\+{\+\sigma} = -p \+{\+\delta} + \+{\+\tau}
+\end{equation}
+where $\+{\+\delta}$ is the identity tensor.
+
+To develop the constitutive relationship for Newtonian fluid, the Stokes' postulate \cite{Stokes1845,Batchelor1967,Panton1996,White1991} contains the following ideas: (1) The viscous stress tensor is a symmetric tensor; (2) there is no viscous stress if the rate of strain is zero; (3) the viscous stress per strain rate ratio is isotropic.
+
+With these assumptions the stress tensor can be derived for the three-dimensional Cartesian coordinate:
+\be
+\sigma_{ij} = -p\delta_{ij} + 2\mu S_{ij}+\delta_{ij} \lambda \f{\p u_k}{\p x_k} %\n \cdot u
+\label{eqn:sigma-stress}
+\ee
+where $\lambda$ is the second viscosity and $S_{ij}$ are the strain tensor components,
+\be
+S_{ij}=\f{1}{2}(\f{\p u_i}{\p x_j}+\f{\p u_j}{\p x_i})
+\ee
+The Stokes' hypothesis relates the two viscosity coefficients,
+\be
+\lambda + \f{2}{3}\mu = 0
+\ee
+therefore the coefficient $\lambda$ can be eliminated from Equation \ref{eqn:sigma-stress},
+\be
+\sigma_{ij} = -p\delta_{ij} + \mu(\f{\p u_i}{\p x_j}+\f{\p u_j}{\p x_i}-\delta_{ij}\f{2}{3}  \f{\p u_k}{\p x_k}) %\n \cdot u
+\ee
+and the momentum equation can be written as:
+\begin{equation}
+\rho \f{D u_i}{D t}=
+-\f{\p p}{\p x_i} +\f{\p}{\p x_j}[\mu (\f{\p u_i}{\p x_j}+\f{\p u_j}{\p x_i}-\delta_{ij}\f{2}{3}  \f{\p u_k}{\p x_k})]
++ \rho f_i
+\end{equation}
+\begin{comment}
+\begin{equation}
+\rho (\frac{\p u_i}{\p t}+\frac{\p u_i u_j}{\p x_j})=-\f{\p p}{\p x_i} +\mu\f{\p^2 u_i}{\p x_j \p x_j} + \f{2}{3} \delta_{ij}\f{\p}{\p x_j}(\f{\p u_k}{\p x_k})  + \rho f_i
+\end{equation}
+\begin{equation}
+\rho (\frac{\p u_i}{\p t}+u_j \frac{\p u_i}{\p x_j}+u_i \f{\p u_k}{\p x_k})=-\f{\p p}{\p x_i} +\mu\f{\p^2 u_i}{\p x_j \p x_j} + \f{2}{3} \delta_{ij}\f{\p}{\p x_j}(\f{\p u_k}{\p x_k})  + \rho f_i
+\label{eqn:incompressible}
+\end{equation}
+\end{comment}
+The term {\Large $\f{\p u_k}{\p x_k}$} is the velocity divergence and vanishes for incompressible flows. However, liquid water is not perfectly incompressible but slightly compressible. To quantify the compressibility, the bulk modulus is defined as:
+\be
+B = \rho \f{\p p}{\p \rho}
+\ee
+The value for liquid water is $2.2 \ GPa$ at $25^o C$. This means that $0.05 \%$ change of density requires $1 \  MPa$ of pressure change, or about ten times of the atmospheric pressure. ($1Pa = 1 N/m^2 = 1 kg/m \cd s^2$, $1 Atm = 101,325 Pa$ ). For the numerical implementation, if the liquid water governing equation is computed without the assumption of incompressibility, $0.05 \%$ divergence error will result in $1 MPa$ of unreal pressure oscillation. Besides, the pressure wave in liquid water propagates at the speed of around $1480 m/s$ at $20^o C$, requiring extremely small time step to resolve the correct pressure and the fluid velocities. Although the presence of air bubbles may decrease the speed of pressure wave significantly.
+\be
+c=\sqrt{B/\rho}=\sqrt{\f{2.2 GPa}{1000 kg/m^3}}=1483 m/s
+\ee
+If the assumption of incompressibility is made, then the momentum equation can be simplified as:
+\begin{equation}
+\rho \f{D u_i}{D t}=
+-\f{\p p}{\p x_i} +\f{\p}{\p x_j}[\mu (\f{\p u_i}{\p x_j}+\f{\p u_j}{\p x_i})]
++ \rho f_i
+\label{eqn:incompressible}
+\end{equation}
+\begin{comment}
+It can as well be written in the vector form,
+\begin{equation}
+\rho (\frac{\p u}{\p t}+u \n u)=-\n p +\mu \n^2 u + \rho f
+\label{eqn:incompressible-vector}
+\end{equation}
+\end{comment}
+When numerically integrating this Navier-Stokes equation, the incompressibility constraint is not satisfied automatically. To meet this criteria, the pressure-Poisson equation is generally employed for the primitive variables formulation. To investigate this incompressibility constraint, assuming the viscosity is constant and rewriting Equation \ref{eqn:incompressible} with  {\Large $\f{\p u_k}{\p x_k}$}$=0$, \normalsize
+\be
+%\f{\p u_i}{\p t}+ u_j \f{\p u_i}{\p u_j}=-\f{\p p}{\p x_i}+\f{\p \tau_{ij}}{\p x_j}
+\f{\p u_i}{\p t}+ \f{\p u_i u_j}{\p x_j}=-\f{1}{\rho}\f{\p p}{\p x_i}+\nu \f{\p^2 u_{i}}{\p x_j \p x_j}+f_i
+\ee
+Then taking the divergence of the above equation with the constant density assumption,
+\be
+\f{\p}{\p t}(\f{\p u_i}{\p x_i}) + \f{\p}{\p x_i}(\f{\p u_i u_j}{\p x_j})=-\f{1}{\rho}\f{\p^2 p}{\p x_i \p x_i} + \nu \f{\p^2}{\p x_j \p x_j}(\f{\p u_i}{\p x_i})
+\ee
+The above equation can be rearranged as:
+\be
+(\f{\p}{\p t}-\nu \f{\p^2}{\p x_j \p x_j})\f{\p u_i}{\p x_i}= h
+\label{eqn:NS-div}
+\ee
+where $h$ can be viewed as a source term,
+\be
+h=-\f{\p}{\p x_i}(\f{\p u_i u_j}{\p x_j})-\f{1}{\rho}\f{\p^2 p}{\p x_i \p x_i}
+\label{eqn:pressure-poisson-h}
+\ee
+Equation \ref{eqn:NS-div} means that the increase rate of the velocity divergence, {\Large $\f{\p}{\p t}(\f{\p u_i}{\p x_i})$}, equals the diffusion term, {\Large $\nu \f{\p^2}{\p x_j \p x_j}(\f{\p u_i}{\p x_i})$}, plus the source term, $h$.
+To ensure the divergence-free constraint is satisfied everywhere at all time, the initial and boundary conditions of velocities have to be divergence-free; and the source term $h$ is required to be equal to zero. This means that the advection term which caused the non-zero divergence, {\Large $\f{\p}{\p x_i}(\f{\p u_i u_j}{\p x_j})$}, has to be counterbalanced by the pressure gradient. It seems straight forward to find the pressure-Poisson equation by forcing $h=0$ in Equation \ref{eqn:pressure-poisson-h}. However, small errors accumulated in the computation of this equation will be integrated in time, eventually resulting in significant contribution to the divergence of velocity. A more effective approach called the projection method \cite{Chorin1980} is used instead.
+
+If the density is not treated as constant, then the divergence of Equation \ref{eqn:incompressible} shows
+\be
+\f{\p }{\p t}(\di \+u)+\di (\+u \cdot \n \+u)=\nu \di (\n^2 \+u) - \n (\f{1}{\rho})\cdot \n p - \f{1}{\rho}\n^2 p
+\ee
+or,
+\be
+[\f{\p }{\p t}+\nu \n^2](\di \+u) = -\n (\f{1}{\rho})\cdot \n p - \f{1}{\rho}\n^2 p-\di (\+u \cdot \n \+u)
+\ee
+
+It can be seen that the incompressibility constraint is satisfied if and only if the right hand side of the equation is zero everywhere at all time:
+\be
+-\n (\f{1}{\rho})\cdot \n p - \f{1}{\rho}\n^2 p + \di (\+u \cdot \n \+u)=0
+\ee
+When $\n (\f{1}{\rho})\cdot \n p$ is negligible compared with $\f{1}{\rho}\n^2 p$, it can be approximated as:
+\be
+\f{1}{\rho}\n^2 p =- \di (\+u \cdot \n \+u)
+\label{eqn:pressure-poisson}
+\ee
+
+%Halliday , Resnick, Walker, Fundamentals of Physics, 5E,Extended, Wiley 1997
+%http://en.wikipedia.org/wiki/Pascal
+

@@ -1,0 +1,242 @@
+\normalsize
+\chapter{Constrained Interpolation Profile Method}
+\label{appendix:CIP}
+
+The constrained interpolation profile method is proposed by Yabe et. al.
+\cite{Yabe1991A, Yabe1991B, Yabe01, Xiao1999}. The scalar transport equations used in the unsteady non-hydrostatic flow model of Chapter \ref{chapter:FlowModel} are published by Xiao et. al. \cite{Xiao1999}. The two and three-dimensional cases in the paper \cite{Xiao1999} are listed here for completeness.
+
+
+\section{ Two-Dimensional Case }
+\be
+f_i^{n+1}=F(x_i-u\Delta t, y_j-v\Delta t)
+\ee
+\be
+\p_x f_i^{n+1}=\p_x F(x_i-u\Delta t, y_j-v\Delta t)-\p_x u \cdot \p_x f - \p_x v \cdot \p_y f
+\ee
+\be
+\p_y f_i^{n+1}=\p_y F(x_i-u\Delta t, y_j-v\Delta t)-\p_y u \cdot \p_x f - \p_y v \cdot \p_y f
+\ee
+where
+\be
+F_{i,j}(x,y)=
+\left[{\sum_{\scriptstyle 0\le {l_x}+{l_y}\le 3}}C_{{l_x},{l_y}}(x-x_i)^{l_x}(y-y_j)^{l_y}\right]
+\left[\sum_{\scriptstyle 0\le p+q\le 1} \alpha_{p,q}\beta_{p,q}(x-x_i)^p(y-y_j)^q \right]^{-1}
+\ee
+
+\begin{eqnarray}
+C_{2,1}&=&[\alpha_{0,1}\beta_{0,1}f_{i-isign,j}+(1+\alpha_{1,0}\beta_{1,0}\Delta_x)d_{yi-isign,j}-C_{0,1}]/\Delta_x^2 -C_{1,1}/\Delta_x \\
+           C_{1,2}&=&[\alpha_{1,0}\beta_{1,0}f_{i,j-jsign}+(1+\alpha_{0,1}\beta_{0,1}\Delta_y)d_{xi,j-jsign}-C_{1,0}]/\Delta_y^2  -C_{1,1}/\Delta_y \\
+           C_{1,1}&=&[\alpha_{0,1}\beta_{0,1}f_{i-isign,j}+(1+\alpha_{1,0}\beta_{1,0}\Delta_x)d_{yi-isign,j}]/\Delta_x  \nonumber \\
+                  & &+[\alpha_{1,0}\beta_{1,0}f_{i,j-jsign}+(1+\alpha_{0,1}\beta_{0,1}\Delta_y)d_{xi,j-jsign}]/\Delta_y  \nonumber \\
+                  & &+[C_{0,0}-({\sum_{\scriptstyle 0\le p+q\le 1}} \alpha_{p,q}\beta_{p,q}{\Delta_x}^p{\Delta_y}^q)f_{i-isign,j-jsign}]/\Delta_x/\Delta_y  \nonumber \\
+                  & &+C_{3,0}\Delta_x^2/\Delta_y+C_{0,3}\Delta_y^2/\Delta_x+C_{2,0}\Delta_x/\Delta_y+C_{0,2}\Delta_y/\Delta_x \\
+           C_{3,0}&=&[(1+\alpha_{1,0}\beta_{1,0}\Delta_x)(d_{xi-isign,j}-S_x)+d_{xi,j}-S_x ]/\Delta_x^2\\
+           C_{0,3}&=&[(1+\alpha_{0,1}\beta_{0,1}\Delta_y)(d_{yi,j-jsign}-S_y)+d_{yi,j}-S_y ]/\Delta_y^2\\
+           C_{2,0}&=&[(1+\alpha_{1,0}\beta_{1,0}\Delta_x)f_{i-isign,j}-C_{0,0}-C_{1,0}\Delta_x]/\Delta_x^2-C_{3,0}\Delta_x,\\
+           C_{0,2}&=&[(1+\alpha_{0,1}\beta_{0,1}\Delta_y)f_{i,j-jsign}-C_{0,0}-C_{0,1}\Delta_y]/\Delta_y^2-C_{0,3}\Delta_y\\
+           C_{1,0}&=&d_{xi,j} +\alpha_{1,0}\beta_{1,0}C_{0,0} \\
+           C_{0,1}&=&d_{yi,j} +\alpha_{0,1}\beta_{0,1}C_{0,0} \\
+           C_{0,0}&=&f_{i,j}\\
+\beta _{0,0}&=&1.0\\
+\beta _{1,0}&=&[|(S_x-d_{xi,j})/(d_{xi-isign,j}-S_x)|-1]/\Delta_x\\
+\beta _{0,1}&=&[|(S_y-d_{yi,j})/(d_{yi,j-jsign}-S_y)|-1]/\Delta_y\\
+           S_x &=& (f_{i-isign,j}-f_{i,j})/\Delta_x\\
+           S_y &=& (f_{i,j-jsign}-f_{i,j})/\Delta_y\\
+       d_{xi,j} &=& \partial_x f_{i,j}\\
+       d_{yi,j} &=& \partial_y f_{i,j}\\
+\Delta _x &=& x_{i-isign}-x_{i}\\
+\Delta _y &=& y_{j-jsign}-y_{j}
+\end{eqnarray}
+\begin{eqnarray}
+isign &=& \left\{ \begin{array}{ll}
+                  -1 \ \ if \ \ u_{i,j} \leq 0 \\
+                   1 \ \ if \ \ u_{i,j} > 0
+                   \end{array} \right. \\
+jsign &=& \left\{ \begin{array}{ll}
+                  -1 \ \ if \ \ v_{i,j} \leq 0  \\
+                   1 \ \ if \ \ v_{i,j} > 0
+                   \end{array} \right.\\
+\alpha_{1,0} &=& \left\{ \begin{array}{ll}
+                   1 \ \ if \ \ d_{xi,j}\cdot d_{xi-isign,j} < 0 \\
+                   0 \ \ if \ \ d_{xi,j}\cdot d_{xi-isign,j} \geq 0
+                   \end{array} \right.\\
+\alpha_{0,1} &=& \left\{ \begin{array}{ll}
+                   1 \ \ if \ \ d_{yi,j}\cdot d_{yi,j-jsign} < 0 \\
+                   0 \ \ if \ \ d_{yi,j}\cdot d_{yi,j-jsign} \geq 0
+                   \end{array} \right.
+\end{eqnarray}
+
+
+\section {Three-Dimensional Case }
+\be
+f_i^{n+1}=F(x_i-u\Delta t, y_j-v\Delta t, y_k-w\Delta t)
+\ee
+\be
+\p_x f_i^{n+1}=\p_x F(x_i-u\Delta t, y_j-v\Delta t, y_k-w\Delta t)-\p_x u \cdot \p_x f - \p_x v \cdot \p_y f - \p_x w \cdot \p_z f
+\ee
+\be
+\p_y f_i^{n+1}=\p_y F(x_i-u\Delta t, y_j-v\Delta t, y_k-w\Delta t)-\p_y u \cdot \p_x f - \p_y v \cdot \p_y f - \p_y w \cdot \p_z f
+\ee
+\be
+\p_z f_i^{n+1}=\p_z F(x_i-u\Delta t, y_j-v\Delta t, y_k-w\Delta t)-\p_z u \cdot \p_x f - \p_z v \cdot \p_y f - \p_z w \cdot \p_z f
+\ee
+where
+\ba
+F_{i,j,k}(x,y,z)= \left[{\sum_{\scriptstyle 0\le p+q+r\le 1} \alpha_{p,q,r}\beta_{p,q,r}(x-x_i)^p(y-y_j)^q(z-z_k)^r} \right]^{-1} \times \nonumber \\
+\left[{\sum_{\scriptstyle 0\le {l_x}+{l_y}+{l_z}\le 3}}C_{{l_x},{l_y},{l_z}}(x-x_i)^{l_x}(y-y_j)^{l_y}(z-z_k)^{l_z}\right]
+\ea
+\begin{eqnarray}
+           C_{1,1,1}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+q+r\le 1}} \alpha_{p,q,r}\beta_{p,q,r}\Delta_x^p\Delta_y^q\Delta_z^r{\bigg)}f_{i-isign,j-jsign,k-ksign} \nonumber \\
+                  & &-C_{0,0,0}-C_{1,0,0}\Delta_x-C_{0,1,0}\Delta_y-C_{0,0,1}\Delta_z \nonumber \\
+                  & &-C_{1,1,0}\Delta_x\Delta_y-C_{1,0,1}\Delta_x\Delta_z-C_{0,1,1}\Delta_y\Delta_z-C_{2,1,0}\Delta_x^2\Delta_y \nonumber \\
+                  & &-C_{1,2,0}\Delta_x\Delta_y^2-C_{2,0,1}\Delta_x^2\Delta_z-C_{1,0,2}\Delta_x\Delta_z^2-C_{0,2,1}\Delta_y^2\Delta_z \nonumber \\
+                  & &-C_{0,1,2}\Delta_y\Delta_z^2-C_{2,0,0}\Delta_x^2-C_{0,2,0}\Delta_y^2-C_{0,0,2}\Delta_z^2 \nonumber \\
+                  & &-C_{3,0,0}\Delta_x^3-C_{0,3,0}\Delta_y^3-C_{0,0,3}\Delta_z^3{\bigg]}{\big /}(\Delta_x\Delta_y\Delta_z)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{2,1,0}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+q\le 1}} \alpha_{p,q,0}\beta_{p,q,0}\Delta_x^p\Delta_y^q{\bigg)}f_{i-isign,j-jsign,k} \nonumber \\
+                  & &-(1+\alpha_{0,1,0}\beta_{0,1,0}\Delta_y)\Delta_xd_{xi,j-jsign,k}-\alpha_{1,0,0}\beta_{1,0,0}\Delta_xf_{i,j-jsign,k} \nonumber \\
+                  & &+C_{1,0,0}\Delta_x-\zeta_{xy}{\bigg]}{\big /}(\Delta_x^2\Delta_y)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{1,2,0}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+q\le 1}} \alpha_{p,q,0}\beta_{p,q,0}\Delta_x^p\Delta_y^q{\bigg)}f_{i-isign,j-jsign,k} \nonumber \\
+                  & &-(1+\alpha_{1,0,0}\beta_{1,0,0}\Delta_x)\Delta_yd_{yi-isign,j,k}-\alpha_{0,1,0}\beta_{0,1,0}\Delta_yf_{i-isign,j,k} \nonumber \\
+                  & &+C_{0,1,0}\Delta_y-\zeta_{xy}{\bigg]}{\big /}(\Delta_x\Delta_y^2),
+\end{eqnarray}
+\begin{eqnarray}
+           C_{1,1,0}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+q\le 1}} \alpha_{p,q,0}\beta_{p,q,0}\Delta_x^p\Delta_y^q{\bigg)}f_{i-isign,j-jsign,k} \nonumber \\
+                  & &-C_{2,1,0}\Delta_x^2\Delta_y-C_{1,2,0}\Delta_x\Delta_y^2-\zeta_{xy}{\bigg]}{\big /}(\Delta_x\Delta_y)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{2,0,1}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+r\le 1}} \alpha_{p,0,r}\beta_{p,0,r}\Delta_x^p\Delta_z^r{\bigg)}f_{i-isign,j,k-ksign} \nonumber \\
+                  & &-(1+\alpha_{0,0,1}\beta_{0,0,1}\Delta_z)\Delta_xd_{xi,j,k-ksign}-\alpha_{1,0,0}\beta_{1,0,0}\Delta_xf_{i,j,k-ksign} \nonumber \\
+                  & &+C_{1,0,0}\Delta_x-\zeta_{xz}{\bigg]}{\big /}(\Delta_x^2\Delta_z)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{1,0,2}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+r\le 1}} \alpha_{p,0,r}\beta_{p,0,r}\Delta_x^p\Delta_z^r{\bigg)}f_{i-isign,j,k-ksign} \nonumber \\
+                  & &-(1+\alpha_{1,0,0}\beta_{1,0,0}\Delta_x)\Delta_zd_{zi-isign,j,k}-\alpha_{0,0,1}\beta_{0,0,1}\Delta_zf_{i-isign,j,k} \nonumber \\
+                  & &+C_{0,0,1}\Delta_z-\zeta_{xz}{\bigg]}{\big /}(\Delta_x\Delta_z^2)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{1,0,1}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le p+r\le 1}} \alpha_{p,0,r}\beta_{p,0,r}\Delta_x^p\Delta_z^r{\bigg)}f_{i-isign,j,k-ksign} \nonumber \\
+                  & &-C_{2,0,1}\Delta_x^2\Delta_z-C_{1,0,2}\Delta_x\Delta_z^2-\zeta_{xz}{\bigg]}{\big /}(\Delta_x\Delta_z)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{0,2,1}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le q+r\le 1}} \alpha_{0,q,r}\beta_{0,q,r}\Delta_y^q\Delta_z^r{\bigg)}f_{i,j-jsign,k-ksign} \nonumber \\
+                  & &-(1+\alpha_{0,0,1}\beta_{0,0,1}\Delta_z)\Delta_yd_{yi,j,k-ksign}-\alpha_{0,1,0}\beta_{0,1,0}\Delta_yf_{i,j,k-ksign} \nonumber \\
+                  & &+C_{0,1,0}\Delta_y-\zeta_{yz}{\bigg]}{\big /}(\Delta_y^2\Delta_z)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{0,1,2}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le q+r\le 1}} \alpha_{0,q,r}\beta_{0,q,r}\Delta_y^q\Delta_z^r{\bigg)}f_{i,j-jsign,k-ksign} \nonumber \\
+                  & &-(1+\alpha_{0,1,0}\beta_{0,1,0}\Delta_y)\Delta_zd_{zi,j-jsign,k}-\alpha_{0,0,1}\beta_{0,0,1}\Delta_zf_{i,j-jsign,k} \nonumber \\
+                  & &+C_{0,0,1}\Delta_z-\zeta_{yz}{\bigg]}{\big /}(\Delta_y\Delta_z^2)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{0,1,1}&=&{\bigg[}{\bigg(}{\sum_{\scriptstyle 0\le q+r\le 1}} \alpha_{0,q,r}\beta_{0,q,r}\Delta_y^q\Delta_z^r{\bigg)}f_{i,j-jsign,k-ksign} \nonumber \\
+                  & &-C_{0,2,1}\Delta_y^2\Delta_z-C_{0,1,2}\Delta_y\Delta_z^2-\zeta_{yz}{\bigg]}{\big /}(\Delta_y\Delta_z)
+\end{eqnarray}
+\begin{eqnarray}
+           C_{2,0,0}&=&[(1+\alpha_{1,0,0}\beta_{1,0,0}\Delta_x)f_{i-isign,j,k}-C_{0,0,0}-C_{1,0,0}\Delta_x]/(\Delta_x^2) \nonumber \\
+           & &-C_{3,0,0}\Delta_x
+\end{eqnarray}
+\begin{eqnarray}
+           C_{0,2,0}&=&[(1+\alpha_{0,1,0}\beta_{0,1,0}\Delta_y)f_{i,j-jsign,k}-C_{0,0,0}-C_{0,1,0}\Delta_y]/(\Delta_y^2) \nonumber \\
+           & &-C_{0,3,0}\Delta_y
+\end{eqnarray}
+\begin{eqnarray}
+           C_{0,0,2}&=&[(1+\alpha_{0,0,1}\beta_{0,0,1}\Delta_z)f_{i,j,k-ksign}-C_{0,0,0}-C_{0,0,1}\Delta_z]/(\Delta_z^2) \nonumber \\
+           & &-C_{0,0,3}\Delta_z
+\end{eqnarray}
+\begin{equation}
+           C_{3,0,0}=[(1+\alpha_{1,0,0}\beta_{1,0,0}\Delta_x)(d_{xi-isign,j,k}-S_x)+d_{xi,j,k}-S_x]/(\Delta_x^2)
+\end{equation}
+\begin{equation}
+           C_{0,3,0}=[(1+\alpha_{0,1,0}\beta_{0,1,0}\Delta_y)(d_{yi,j-jsign,k}-S_y)+d_{yi,j,k}-S_y]/(\Delta_y^2)
+\end{equation}
+\begin{equation}
+           C_{0,0,3}=[(1+\alpha_{0,0,1}\beta_{0,0,1}\Delta_z)(d_{zi,j,k-ksign}-S_z)+d_{zi,j,k}-S_z]/(\Delta_z^2)
+\end{equation}
+\begin{equation}
+           C_{1,0,0}=d_{xi,j,k} +\alpha_{1,0,0}\beta_{1,0,0}C_{0,0,0}
+\end{equation}
+\begin{equation}
+           C_{0,1,0}=d_{yi,j,k} +\alpha_{0,1,0}\beta_{0,1,0}C_{0,0,0}
+\end{equation}
+\begin{equation}
+           C_{0,0,1}=d_{zi,j,k} +\alpha_{0,0,1}\beta_{0,0,1}C_{0,0,0}
+\end{equation}
+\begin{equation}
+           C_{0,0,0}=f_{i,j,k}
+\end{equation}
+\begin{equation}
+           \beta _{0,0,0}=1.0
+\end{equation}
+\begin{equation}
+           \beta _{1,0,0}=[|(S_x-d_{xi,j,k})/(d_{xi-isign,j,k}-S_x)|-1]/\Delta_x
+\end{equation}
+\begin{equation}
+           \beta _{0,1,0}=[|(S_y-d_{yi,j,k})/(d_{yi,j-jsign,k}-S_y)|-1]/\Delta_y
+\end{equation}
+\begin{equation}
+           \beta _{0,0,1}=[|(S_z-d_{zi,j,k})/(d_{zi,j,k-ksign}-S_z)|-1]/\Delta_z
+\end{equation}
+\begin{eqnarray}           \zeta_{xy}=C_{0,0,0}+C_{1,0,0}\Delta_x+C_{0,1,0}\Delta_y+C_{2,0,0}\Delta_x^2+C_{0,2,0}\Delta_y^2 +C_{3,0,0}\Delta_x^3+C_{0,3,0}\Delta_y^3\\
+           \zeta_{xz}=C_{0,0,0}+C_{1,0,0}\Delta_x+C_{0,0,1}\Delta_z+C_{2,0,0}\Delta_x^2+C_{0,0,2}\Delta_z^2  +C_{3,0,0}\Delta_x^3+C_{0,0,3}\Delta_z^3\\
+           \zeta_{yz}=C_{0,0,0}+C_{0,1,0}\Delta_x+C_{0,0,1}\Delta_z+C_{0,2,0}\Delta_y^2+C_{0,0,2}\Delta_z^2  +C_{0,3,0}\Delta_y^3+C_{0,0,3}\Delta_z^3
+\end{eqnarray}
+\ba
+          &S_x=(f_{i-isign,j,k}-f_{i,j,k})/\Delta_x\\
+          &S_y=(f_{i,j-jsign,k}-f_{i,j,k})/\Delta_y\\
+          &S_z=(f_{i,j,k-ksign}-f_{i,j,k})/\Delta_z\\
+      &d_{xi,j,k}=\partial_x f_{i,j,k}\\
+          &d_{yi,j,k}=\partial_y f_{i,j,k}\\
+          &d_{zi,j,k}=\partial_z f_{i,j,k}\\
+          &\Delta _x=x_{i-isign}-x_{i}\\
+          &\Delta _y=y_{j-jsign}-y_{j}\\
+          &\Delta _z=z_{k-ksign}-z_{k}
+\ea
+\ba
+isign=\left\{ \begin{array}{ll}
+                  -1 \ \ if \ \ u_{i,j,k} \leq 0\\
+                   1 \ \ if \ \ u_{i,j,k} > 0
+                   \end{array} \right. \ea
+\ba
+jsign=\left\{ \begin{array}{ll}
+                  -1 \ \ if \ \ v_{i,j,k} \leq 0\\
+                   1 \ \ if \ \ v_{i,j,k} > 0
+                   \end{array} \right. \ea
+\ba
+ksign=\left\{ \begin{array}{ll}
+                  -1 \ \ if \ \ w_{i,j,k} \leq 0\\
+                   1 \ \ if \ \ w_{i,j,k} > 0
+                   \end{array} \right.
+\ea
+\begin{equation}
+\alpha_{1,0,0}
+                   =\left\{ \begin{array}{ll}
+                   1 \ \ if \ \ d_{xi,j,k}\cdot d_{xi-isign,j,k} < 0\\
+                   0 \ \ if \ \ d_{xi,j,k}\cdot d_{xi-isign,j,k} \geq 0
+                   \end{array} \right.
+\end{equation}
+\begin{equation}
+\alpha_{0,1,0}
+                   =\left\{ \begin{array}{ll}
+                   1 \ \ if \ \ d_{yi,j,k}\cdot d_{yi,j-jsign,k} < 0\\
+                   0 \ \ if \ \ d_{yi,j,k}\cdot d_{yi,j-jsign,k} \geq 0
+                   \end{array} \right.
+\end{equation}
+\begin{equation}
+\alpha_{0,0,1}
+                   =\left\{ \begin{array}{ll}
+                   1 \ \ if \ \ d_{zi,j,k}\cdot d_{zi,j,k-ksign} < 0 \\
+                   0 \ \ if \ \ d_{zi,j,k}\cdot d_{zi,j,k-ksign} \geq 0
+                   \end{array} \right.
+\end{equation}
+
+
+
+
+
+
+
+

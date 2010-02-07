@@ -1,0 +1,20 @@
+\normalsize
+\section{Turbulent Diffusion}
+
+This finite-difference discretization of the Navier-Stokes equation filters out the sub-grid scale information.
+For example, the central difference approximation of the velocity gradient,
+\be
+\f{u(x+\Delta x)-u(x-\Delta x)}{2 \Delta x}=\f{d}{dx}\left[\f{1}{2 \Delta x}\int^{x+\Delta x}_{x-\Delta x}u(\eta)d \eta \right]
+\ee
+can be viewed as a such filter \cite{Wilcox1994}.
+No turbulence model is required if the grid size is small enough to be comparable of the smallest Kolmogorov's length, $Re_{\Delta x} = u \Delta x / \nu \sim 1$.
+
+If the velocity of the gravity current is around $0.1 \ m/s$, then the Reynolds number can be approximated with the kinematic viscosity of water $\sim 10^{-6} \ m^2/s$ and the water depth $0.15 \ m$,
+\be
+Re \sim \f{0.1 \times 0.15}{10^{-6}}= 15000
+\ee
+If the smallest Kolmogorov's length scale $\eta$ is to be resolved in the numerical model,
+\be
+Re_{\eta}=u \eta/ \nu \sim 1
+\ee
+then the grid size will be the order of $10^{-5} \ m$. However, the purpose of this simulation is not to calibrate a numerical model for the experiment result but rather a pioneer test for the practicality of the adjusted non-hydrostatics technique, therefore a coarser grid will be used to lessen the computation burden. 

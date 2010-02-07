@@ -1,0 +1,201 @@
+\normalsize
+\section{Governing Equation}
+
+The differential form of the momentum equation for incompressible flows can be written as:
+\be
+\f{\p u_i}{\p t}+ \f{\p u_i u_j}{\p x_j}=-\f{1}{\rho}\f{\p p}{\p x_i}+\nu \f{\p^2 u_{i}}{\p x_j \p x_j}+f_i
+\label{eqn:chap-FlowModel-momentum-incompressible}
+\ee
+\begin{comment}
+\be
+\frac {\partial u}{\partial t} + u \frac {\partial u}{\partial
+x}+v \frac {\partial u}{\partial y} + w \frac {\partial
+u}{\partial z}
+=
+\mu_h \frac {\partial^2 u}{\partial x^2}+\mu_h
+\frac {\partial^2 u}{\partial y^2}+\mu_v \frac {\partial^2
+u}{\partial z^2}-\frac{1}{\rho} \frac{\partial }{\partial
+x}(P_o+P_d)+f_x
+\ee
+\be
+\frac {\partial v}{\partial t} + u \frac {\partial v}{\partial
+x}+v \frac {\partial v}{\partial y} + w \frac {\partial
+v}{\partial z}
+=
+\mu_h \frac {\partial^2 v}{\partial x^2}+\mu_h
+\frac {\partial^2 v}{\partial y^2}+\mu_v \frac {\partial^2
+v}{\partial z^2}-\frac{1}{\rho} \frac{\partial}{\partial
+y}(P_o+P_d)+f_y
+\ee
+\be
+\frac {\partial w}{\partial t} + u \frac {\partial w}{\partial
+x}+v \frac {\partial w}{\partial y} + w \frac {\partial
+w}{\partial z}
+=
+\mu_h \frac {\partial^2 w}{\partial x^2}+\mu_h
+\frac {\partial^2 w}{\partial y^2}+\mu_v \frac {\partial^2
+w}{\partial z^2}-\frac{1}{\rho} \frac{\partial}{\partial
+z}(P_o+P_d)+f_z
+\ee
+\end{comment}
+with the continuity equation,
+\be
+\f{\p u_i}{\p x_i}=0
+\ee
+\begin{comment}
+\be
+\frac{\partial u}{\partial x} + \frac{\partial v}{\partial
+y}+\frac{\partial w}{\partial z}= 0 \label{continuity}
+\ee
+\end{comment}
+%where $\mu_h$ and $\mu_v$ are horizontal and vertical eddy viscosities.
+
+The pressure term is usually decomposed into the vertical hydrostatic pressure $p_o$ and the hydrodynamic pressure $p_d$. This decomposition helps to minimize the numerical error of the velocity prediction and obviate the need for the pressure-Poisson equation when steady state is reached.
+\be
+\f{\p u_i}{\p t}+ \f{\p u_i u_j}{\p x_j}=-\f{1}{\rho}\f{\p (p_o+p_d)}{\p x_i}+\nu \f{\p^2 u_{i}}{\p x_j \p x_j}+f_i
+\ee
+
+The integral form of the momentum equation can be integrated from the differential form or derived from the conservation law of a vector $\+u$ \cite{Blazek2001},
+\be
+\f{\p}{\p t}\int_\Omega \+u \ d\Omega + \oint_{\p \Omega}\left[\+{\+{f_c}}-\+{\+{f_d}}\right] \cd d\+s = \int_\Omega \+{q_v} \ d\Omega + \oint_{\p \Omega} \+{\+{q_s}} \cd d\+s
+\ee
+
+where $\+{\+{f_c}}$ is the convective flux tensor, $\+{\+{f_d}}$ is the diffusive flux tensor, $\+{q_v}$ is the volume source vector, and $\+{\+{q_s}}$ is the volume source tensor. For the momentum equation, we can see that the surface source term $\+{\+{q_s}}$ equals the stress term $\+{\+\sigma}$ and the volume source term $\+{q_v}$ equals the body force $\+f$, therefore the momentum equation can be obtained:
+\be
+\f{\p}{\p t} \int_\Omega \rho \+u \ d\Omega+ \oint_{\p \Omega} \rho \+u (\+u \cd d\+s) = \int_\Omega \rho \+f \ d\Omega - \oint_{\p \Omega}(p_d+p_o) \cd d\+s + \oint_{\p \Omega} \+{\+\tau} \cd d\+s
+\ee
+
+
+
+\normalsize
+\subsection*{Hydrostatic Model}
+For flow models with hydrostatic assumption, the hydrostatic pressure $p_o$ is assumed to be balanced with the gravitational acceleration and the non-hydrostatic pressure $p_d$ is always zero:
+\begin{equation}
+ \frac{\partial p_o}{\partial z}- \rho g= 0
+\end{equation}
+In the horizontal direction, the hydrostatic pressure
+gradient can be decomposed into the barotropic and baroclinic terms. Barotropic means that the density is solely dependant on the pressure, in other words, there is no buoyancy forces due to the temperature difference or other variables such as salinity. Therefore the equation of state can be written as $\rho=f(p)$. On the other hand, baroclinic does not limit the density to be a solely function of the pressure and can be dependant on other variables, such as salinity and temperature. %viz., $\rho=f(p, T, S, ...)$.
+\begin{equation}
+p_o=g \int_z^h \rho d \xi = g \rho_o \int_z^h  d \xi + g \int_z^h
+(\rho-\rho_o) d \xi
+\end{equation}
+\begin{equation}
+\Rightarrow \frac{1}{\rho}\frac{\partial p_o}{\partial x_i}
+=g(\frac{\rho_o}{\rho})\frac{\partial h}{\partial x_i} +
+\frac{g}{\rho}\int_z^h \frac{\partial \rho}{\partial x_i} d \xi
+\end{equation}
+where the first term on the right hand side is referred as the barotropic term and the second term is the baroclinic term. However, this hydrostatic vertical density distribution model has no baroclinic term in the vertical direction. This ignores the buoyancy effect in the vertical direction when the density is not monotonically increasing downward.
+If the variation of water density is not significant, then the
+Boussinesq approximation can be applied on the above equation,
+\begin{equation}
+\frac{1}{\rho}\frac{\partial p_o}{\partial x_i} \approx
+\frac{1}{\rho_o}\frac{\partial p_o}{\partial x_i}=g\frac{\partial
+h}{\partial x_i} + \frac{g}{\rho_o}\int_z^h \frac{\partial
+\rho}{\partial x_i} d \xi
+\end{equation}
+therefore Equation \ref{eqn:chap-FlowModel-momentum-incompressible} can be written as:
+\be
+\f{\p u_i}{\p t}+ \f{\p u_i u_j}{\p x_j}=-g\frac{\partial
+h}{\partial x_i} - \frac{g}{\rho_o}\int_z^h \frac{\partial
+\rho}{\partial x_i} d \xi+\nu \f{\p^2 u_{i}}{\p x_j \p x_j}+f_i
+\ee
+note that in the $z$ direction, the first two terms on the right-hand side are canceled out with the gravitational acceleration:
+\be
+\f{\p w}{\p t}+ \f{\p w u_j}{\p x_j} = \nu \f{\p^2 w}{\p x_j \p x_j}
+\ee
+Practically, this vertical velocity component ($w$) is computed from the continuity equation for given $u$ and $v$, instead of computed from the above equation.
+
+In the integral form, the governing equation for horizontal velocities can be written as:
+\ba
+\f{\p}{\p t} \int_\Omega \rho u_i \ d\Omega + \oint_{\p \Omega} \rho u_i (\+u \cd d\+s) &=&  \\
+-\oint_{\p \Omega} h (\+{e_i} \cd d\+s) &-& \oint_{\p \Omega} \left[\int_z^h \rho \ d\xi \right]\+{e_i} \cd d\+s + \oint_{\p \Omega} \tau_{ij} (\+{e_j}\cd d\+s)+\int_\Omega \rho f_i \ d\Omega \nonumber
+\ea
+
+
+\normalsize
+\subsection*{Non-hydrostatic Model}
+
+For flow models without hydrostatic assumption, the hydrostatic pressure $p_o$ is assumed to be balanced with the gravitational acceleration of the reference density $\rho_o$:
+\begin{equation}
+ \frac{\partial p_o}{\partial z}- \rho_o g= 0
+\end{equation}
+In the horizontal direction, the hydrostatic pressure gradient can be written as:
+\begin{equation}
+p_o = g \rho_o \int_z^h  d \xi \Rightarrow \frac{1}{\rho}\frac{\partial p_o}{\partial x_i}
+=g(\frac{\rho_o}{\rho})\frac{\partial h}{\partial x_i}
+\end{equation}
+with the Boussinesq approximation,
+\begin{equation}
+\frac{1}{\rho}\frac{\partial p_o}{\partial x_i} \approx
+\frac{1}{\rho_o}\frac{\partial p_o}{\partial x_i}=g\frac{\partial
+h}{\partial x_i}
+\end{equation}
+therefore Equation \ref{eqn:chap-FlowModel-momentum-incompressible} can be written as:
+\be
+\f{\p u_i}{\p t}+ \f{\p u_i u_j}{\p x_j}=-g\frac{\partial
+h}{\partial x_i} -\f{1}{\rho_o}\f{\p p_d}{\p x_i}+\nu \f{\p^2 u_{i}}{\p x_j \p x_j}+f_i
+\ee
+in the $z$ direction, the first two terms on the right hand side are balanced with the gravitational acceleration of the reference density $\rho_o$ and the body force per unit mass equals the reduced gravity:
+\be
+\f{\p w}{\p t}+ \f{\p w u_j}{\p x_j} = -\f{1}{\rho_o}\f{\p p_d}{\p z}+\nu \f{\p^2 w}{\p x_j \p x_j}-g \f{\rho-\rho_o}{\rho_o}
+\ee
+
+In the integral form, the governing equation can be written as:
+\ba
+\f{\p}{\p t} \int_\Omega \rho u_i \ d\Omega + \oint_{\p \Omega} \rho u_i (\+u \cd d\+s) &=&  \\
+-\oint h (e_i \cd d\+s) &-& \oint_{\p \Omega}p_d (\+{e_i} \cd d\+s) + \oint_{\p \Omega} \tau_{ij} (\+{e_j}\cd d\+s)+\int_\Omega \rho f_i \ d\Omega \nonumber
+\ea
+the barotropic term vanishes in the vertical direction,
+\be
+\f{\p}{\p t} \int_\Omega \rho w \ d\Omega+ \oint_{\p \Omega} \rho w (\+u \cd d\+s) = - \oint_{\p \Omega}p_d (\+{e_i} \cd d\+s) + \oint_{\p \Omega} \tau_{zj} (\+{e_j}\cd d\+s)-\int_\Omega (\rho-\rho_o) g \ d\Omega
+\ee
+
+\subsection*{Weighted Non-hydrostatic Model}
+%When the isopycnal surfaces intersect the isobaric surfaces, the baroclinic model is favored.
+The hydrostatic and non-hydrostatic models can be united by a weighting parameter $\alpha$, assuming that the reference density plus an adjustable portion of the density variation is balanced with the hydrostatic pressure:
+\begin{equation}
+ \frac{\partial p_o}{\partial z}+ (\rho_o + \alpha \rho') g = 0
+\end{equation}
+where $\rho' = \rho-\rho_o$.
+
+In the horizontal direction, the hydrostatic pressure gradient can thus be decomposed into the barotropic and baroclinic terms:
+\begin{equation}
+P_o = g \int_z^h (\rho_o + \alpha \rho\prime) d \xi
+    = g \rho_o \int_z^h  d \xi + g \alpha \int_z^h \rho\prime d \xi
+\end{equation}
+\begin{equation}
+\Rightarrow
+\frac{1}{\rho}\frac{\partial P_o}{\partial x}
+ = g(\frac{\rho_o}{\rho})\frac{\partial h}{\partial x}
+ + \alpha \frac{g}{\rho}\int_z^h \frac{\partial \rho}{\partial x} d \xi
+\end{equation}
+In the $z$ direction, the unbalanced density distribution contributes to the reduced gravity term.
+Therefore the governing equation of horizontal velocities in the differential form can be written as:
+\be
+\f{\p u_i}{\p t}+ \f{\p u_i u_j}{\p x_j}=-g\frac{\partial
+h}{\partial x_i} -\alpha \frac{g}{\rho_o}\int_z^h \frac{\partial
+\rho}{\partial x_i} d \xi -\f{1}{\rho_o}\f{\p p_d}{\p x_i}+\nu \f{\p^2 u_{i}}{\p x_j \p x_j}+f_i
+\ee
+for the vertical velocity:
+\be
+\f{\p w}{\p t}+ \f{\p w u_j}{\p x_j} = -\f{1}{\rho_o}\f{\p p_d}{\p z}+\nu \f{\p^2 w}{\p x_j \p x_j}-(1-\alpha) g \f{\rho'}{\rho_o}
+\ee
+
+In the integral form, the governing equation of horizontal velocities can be written as:
+\ba
+\f{\p}{\p t} \int_\Omega \rho u_i \ d\Omega + \oint_{\p \Omega} \rho u_i (\+u \cd d\+s) &=& -\oint h (e_i \cd d\+s) \\
+ - \alpha \oint_{\p \Omega} \left[\int_z^h \rho \ d\xi \right]\+{e_i} \cd d\+s &-& \oint_{\p \Omega}p_d (\+{e_i} \cd d\+s) + \oint_{\p \Omega} \tau_{ij} (\+{e_j}\cd d\+s)+\int_\Omega \rho f_i \ d\Omega \nonumber
+\ea
+for the vertical velocity:
+\be
+\f{\p}{\p t} \int_\Omega \rho w \ d\Omega+ \oint_{\p \Omega} \rho w (\+u \cd d\+s) = - \oint_{\p \Omega}p_d (\+{e_i} \cd d\+s) + \oint_{\p \Omega} \tau_{zj} (\+{e_j}\cd d\+s)-(1-\alpha)\int_\Omega \rho' g \ d\Omega
+\ee
+
+When $\alpha=1$, the governing equation is identical to that of hydrostatic model; when $\alpha = 0$, it becomes the fully non-hydrostatic model.
+
+
+
+
+
+
+
