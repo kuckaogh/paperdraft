@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application - Converted from CVF" Version="11.0" ProjectIdGuid="{DE76335E-4AB5-478C-92E0-5A9FB7F33455}">
+	<Platforms>
+		<Platform Name="Win32"/></Platforms>
+	<Configurations>
+		<Configuration Name="Release|Win32" DeleteExtensionsOnClean="*.obj;*.mod;*.pdb;*.asm;*.map;*.dyn;*.dpi;*.tmp;*.log;*.ilk;*.exe;$(TargetPath)">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" CallingConvention="callConventionCVF" ModulePath="$(INTDIR)/" ObjectFile="$(INTDIR)/" AssemblerListingLocation="$(INTDIR)/"/>
+				<Tool Name="VFLinkerTool" AdditionalOptions="/MACHINE:I386" OutputFile="$(OUTDIR)/MAIN.exe" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" ProgramDatabaseFile="$(OUTDIR)/MAIN.pdb" SubSystem="subSystemConsole" AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"/>
+				<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions="NDEBUG" Culture="rcEnglishUS" ResourceOutputFileName="$(INTDIR)/$(InputName).res"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TypeLibraryName="$(OUTDIR)/MAIN.tlb"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/></Configuration>
+		<Configuration Name="Debug|Win32" DeleteExtensionsOnClean="*.obj;*.mod;*.pdb;*.asm;*.map;*.dyn;*.dpi;*.tmp;*.log;*.ilk;*.exe;$(TargetPath)">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" BufferedIO="true" OpenMPConditionalCompilation="false" FPS4Libs="false" StandardWarnings="standardWarningsF95" WarnDeclarations="true" WarnUnusedVariables="true" WarnIgnoreLOC="true" WarnTruncateSource="true" RealKIND="realKIND8" FloatingPointExceptionHandling="fpe0" RoundFloatingPointResults="true" ExtendSinglePrecisionConstants="true" IEEEMinusZero="true" FlushDenormalResultsToZero="true" ComplexLimitedRange="true" FloatingPointStackCheck="true" CallingConvention="callConventionCVF" ModulePath="$(INTDIR)/" ObjectFile="$(INTDIR)/" AssemblerListingLocation="$(INTDIR)/" Traceback="true" BoundsCheck="true" UninitializedVariablesCheck="true" DescriptorDataTypeCheck="true" DescriptorDataSizeCheck="true" ArgTempCreatedCheck="true" RuntimeLibrary="rtMultiThreadedDebug" ImproveFloatingPointConsistency="true" WarnArgMismatch="true"/>
+				<Tool Name="VFLinkerTool" AdditionalOptions="/MACHINE:I386 /stack:600000000" OutputFile="$(OUTDIR)/MAIN.exe" LinkIncremental="linkIncrementalYes" SuppressStartupBanner="true" GenerateDebugInformation="true" ProgramDatabaseFile="$(OUTDIR)/MAIN.pdb" SubSystem="subSystemConsole" OptimizeForWindows98="optWin98No" AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"/>
+				<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions="_DEBUG" Culture="rcEnglishUS" ResourceOutputFileName="$(INTDIR)/$(InputName).res"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TypeLibraryName="$(OUTDIR)/MAIN.tlb"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/></Configuration></Configurations>
+	<Files>
+		<File RelativePath="../src/ASSIGNVOL.f90"/>
+		<File RelativePath="../src/ASSIGNVOL_R.f90"/>
+		<File RelativePath="../src/AveMatrix2Small.f90"/>
+		<File RelativePath="../src/AveMatrix2SmallP.f90"/>
+		<File RelativePath="../src/BaroClinic_R.f90"/>
+		<File RelativePath="../src/BaroTropic_R.f90"/>
+		<File RelativePath="../src/BC_wall.f90"/>
+		<File RelativePath="../src/BDC3D_R.f90"/>
+		<File RelativePath="../src/CloneMatrix2Large.f90"/>
+		<File RelativePath="../src/COMDAT.f90"/>
+		<File RelativePath="../src/DENSITYSAL_R.f90"/>
+		<File RelativePath="../src/EX_R.f90"/>
+		<File RelativePath="../src/HEIGHT_SMOOTH.f90"/>
+		<File RelativePath="../src/HEIGHTONLY_R.f90"/>
+		<File RelativePath="../src/INIT3D.f90"/>
+		<File RelativePath="../src/INIT_KP_All.f90"/>
+		<File RelativePath="../src/INIT_VOL.f90"/>
+		<File RelativePath="../src/input.dat"/>
+		<File RelativePath="../src/MatrixlUpdate.f90"/>
+		<File RelativePath="../src/OUTPUT.f90"/>
+		<File RelativePath="../src/OUTPUT_ANALYTICAL_INIT.f90"/>
+		<File RelativePath="../src/OUTPUT_INIT.f90"/>
+		<File RelativePath="../src/POISSON_Revised_Multigrid.f90"/>
+		<File RelativePath="../src/RCIP2D.f90"/>
+		<File RelativePath="../src/RCIP3D_R.f90"/>
+		<File RelativePath="../src/READINPUT.f90"/>
+		<File RelativePath="../src/RECEDINGBOUNDARY.f90"/>
+		<File RelativePath="../src/RESET_FF.F90"/>
+		<File RelativePath="../src/RESTART_READ.F90"/>
+		<File RelativePath="../src/RESTART_WRITE.F90"/>
+		<File RelativePath="../src/SIMPLE_R_S_Multigrid_incre.f90"/>
+		<File RelativePath="../src/STABILITY.f90"/>
+		<File RelativePath="../src/TRANSPORT_CIP_R3D.f90"/>
+		<File RelativePath="../src/UPREDICT_CENTRAL.f90"/>
+		<File RelativePath="../src/UTILITIES.F90"/>
+		<File RelativePath="../src/VELOCITY.F90"/>
+		<File RelativePath="../src/VelocityBC.f90"/>
+		<File RelativePath="../src/VELOCITYOnly.f90"/></Files>
+	<Globals/></VisualStudioProject>
