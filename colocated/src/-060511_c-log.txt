@@ -1,0 +1,13 @@
+-060511_c-clean code
+
+-06012001-correct erraneous height and buffer - due to uncessarily receding at the first step.
+          add step and time to log.txt
+
+-05122701-Successful with Free Surface - Problem with small time step
+-05121901-fixed_step_output_start_gravity_case
+-05121902-reset pp in velocity subroutine to remove residual effect of poisson solver
+
+-05122010-smaller buffer closer result
+          Checked those assgin functions, MAX of either values is used.
+          However, they are not the point, the major factor is the buffer.
+          with smaller buffer, the result is closer to the same resolution case.
