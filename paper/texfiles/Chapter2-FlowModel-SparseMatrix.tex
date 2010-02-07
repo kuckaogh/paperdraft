@@ -1,0 +1,34 @@
+\normalsize
+\section{Sparse Matrix Solver}
+\cite{Patton1996}
+
+
+Krylov subspace method - CG
+The convergence rate of such depends on the matrix condition number
+\cite{Saad2003}
+\be
+\|x-\tilde{x}\| \leq \kappa (A) \f{\|x\|  \|r\|}{\|b\|}
+\ee
+where $\|r\|=\|b-Ax\|$ is the residual and $\|x-\tilde{x}\|$ is the absolute error.
+ If $PA$ has a smaller condition number, $\kappa(A)$
+\be
+\kappa_2(A)=\|A\|_2 \ \|A^{-1}\|_2
+\ee
+The norm $\|A\|_2$ here is defined as the $p-norm$ \cite{Saad2003} with $p=2$, or the maximum gain with arbitrary vector $x$
+\be
+\|A\|_2 =
+\max_{x \neq 0} \f{\|Ax\|_2}{\|x\|_2}=
+\max_{x \neq 0} \left[\f{x^H A^H Ax}{x^Hx}\right]^{1/2}=\sqrt{\lambda_{max}(A^H A)}
+\ee
+where $\sqrt{\lambda_{max}(A^H A)}$ is the square root of the maximum eigenvalue of the matrix $A^H A$. The maximum eigenvalue is also called the spectral radius $\rho(A^H A)=\lambda_{max}(A^T A)$, and is equal to the square of the largest singular value. The condition number can be viewed as the ratio of maximum to minimum matrix gain, or the ratio of largest to smallest eigenvalue
+\be
+\kappa_2(A)=\f{\max_{x \neq 0} \|Ax\|_2} {\min_{x \neq 0} \|Ax\|_2}=\sqrt{ \f{\lambda_{max}(A^T A)}{\lambda_{min}(A^T A)}}
+\ee
+
+ than the following equation will likely results a faster convergence.
+\be
+[P][A][x]=[P][b]
+\ee
+where A is a real matrix and x and b are vectors
+
+

@@ -1,0 +1,17 @@
+\normalsize
+\section{Summary}
+
+An alternative approach for domain decomposition of incompressible flow simulations is presented. Instead of solving the pressure-Poisson equation resulted from the divergence-free constraint for the whole domain, the receding boundary method uses overlapping and receding grids to solve the pressure-Poisson equation independently in each subdomain. On the artificial boundaries that delineate the subdomains, the open boundary condition is assumed. Besides, these artificial boundaries are non-stationary. They are designed to move inward for a few computational time steps and then reset to the original location.
+
+Open boundary conditions for artificial boundaries are necessary to enable the independent solution of each subdomain. They include derivative boundary condition \cite{Nordstrom1995}, radiation boundary condition \cite{Sommerfeld1949, Orlanski1976, Engquist1977, Higdon86}, characteristics-based boundary condition \cite{Henderson1966}, absorbing/damping boundary condition \cite{Kosloff1986, Petropoulos1998, Shin1995}, and relaxation boundary condition \cite{Davies1983, Martinsen1987}. Among these open boundary conditions, the derivative boundary condition is chosen to be implemented in the receding boundary method because of simplicity and the successful applications in computational fluid dynamics as discussed by Nordstrom \cite{Nordstrom1995}.
+
+The receding, or the inward-moving of artificial boundaries is the key innovation of this receding boundary method. It can reduce the errors caused by the open boundary assumption. Those artificial boundaries are overlapped initially so that they can move inward without leaving out some area uncomputed between subdomains. After a few computational time steps of receding, those artificial boundaries are reset to the original locations. The missing information in the reset area is copied from the other subdomains, and the information in the overlapping area is averaged from the two subdomains.
+
+The receding boundary method is an approximate domain decomposition method, therefore the discrepancy is expected between the numerical simulation results with and without this method. To demonstrate the practicality of this method, the gravity current example is implemented with this method to quantify the errors. In the simulation, a fixed volume of fluid with higher density at the left boundary of a tank is released into the ambient stratified fluid. The detailed description of this experiment is published by Maxworthy et al. \cite{Maxworthy02}. In the numerical simulation with RBM, the whole domain is decomposed into two overlapping subdomains. The simulation results without RBM (Fig. \ref{fig:RBM-GC-1Domain}) and with RBM (Fig. \ref{fig:RBM-GC-2Domain-S10-B24-G2-660}) are very similar. This similarity is also observed in the analysis of the normalized deviation and root-mean-square of the variables.
+However, the serial computation time of the gravity current simulations with RBM is around 25\% to 50\% more than that without RBM. The is probably due to the increased total domain size resulted from the overlapping of subdomains. The development of the parallel version may decrease the computation time. One successful run of the three-dimensional version is also demonstrated.
+
+
+
+
+
+

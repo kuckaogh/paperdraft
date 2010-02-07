@@ -1,0 +1,11 @@
+\section{Domain Decomposition for Incompressible Flow Simulation}
+
+The domain decomposition method is a divide-and-conquer strategy. The advection, diffusion, batotropic, and the reduced gravity terms are designed to be solved explicitly, the solution for the hydrodynamic pressure is the only implicit part.
+\be
+Ax=B
+\ee
+
+\input{Chapter5-DDM-Incompressible-Schwarz}
+\input{Chapter5-DDM-Incompressible-Substruct}
+%\input{Chapter5-DDM-Incompressible-Explicit-SRM}
+

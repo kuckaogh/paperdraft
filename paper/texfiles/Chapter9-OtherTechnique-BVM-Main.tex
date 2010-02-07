@@ -1,0 +1,163 @@
+\section{Boundary Volume Method}
+
+The finite volume discretization is proposed to formulate the boundary element method. The nontrivial task of evaluating the singular integrals can be avoided by assigning finite volumes to the boundary, and using a finite source term instead of the Dirac delta function to find the fundamental solutions.
+
+In the boundary element method, the domain integral is converted into the surface integral. Therefore the meshing process and the system of discretized equations are only needed on the boundary. Therefore the spatial dimension of the problem is reduced by one. However, the boundary element methods have three major disadvantages as pointed by Mikhailov\cite{Mikhailov05, Mikhailov02}: (1) the dense matrix of BEM outweighs the sparse matrix of FEM for large matrix size; (2) the spatial dimension can not be reduced when dealing with non-linear governing equations; (3) discrete matrix generation is computationally expensive except for simple fundamental solutions.
+
+The boundary volume method is aimed at simplifying the discrete matrix generation by avoiding the singular points integral resulted from the fundamental solutions. The distinctions between the BVM and the BEM are their discretizations and fundamental solutions: (1) for BVM, the finite volume method is used to discretize the Green's second identity, therefore the boundary has finite volumes; (2) the fundamental solutions are solved with a finite source term instead of the Dirac delta function used in the BEM, which equals infinity at the source point.
+
+
+\subsection{Green's identities}
+
+Green's identities are boundary integral equations which convert the domain volume integral into the boundary surface integral. They were presented by George Green, who was born in Nottingham, British in 1793. He received only four terms of formal education at his childhood, long before attending college at the age of forty\citep{Cannell01}.
+%http://www.nottingham.ac.uk/physics/gg/MathspectrumLJC/index.phtml#life
+
+The three Green's identities are derived from the vector product rule, the divergence theorem, and the fundamental solution of Laplace equation\cite{Green1828,Cheng05}:
+\be
+\n\cd(\Phi\n G)=\Phi \n^2 G +(\n \Phi)\cd(\n G)
+\label{eqn:product-vector1}
+\ee
+\be
+\n\cd(G \n \Phi)=G \n^2 \Phi +(\n G)\cd(\n \Phi)
+\label{eqn:product-vector2}
+\ee
+\be
+\int_{\Omega}(\n\cd F) \ dv = \int_{\p \Omega}F\cd d\bf{a}
+\label{eqn:theorem-divergence}
+\ee
+Plugging in Equation \ref{eqn:product-vector1} into Equation \ref{eqn:theorem-divergence} gives the Green's first identity:
+\be
+\int_{\Omega}(\Phi\n^2G+\n \Phi \cd \n G) \ dv = \int_{\p \Omega} (\Phi\n G)\cd d\bf{a}
+\ee
+
+The Green's second identity is obtained by
+subtracting Equation \ref{eqn:product-vector2} from Equation \ref{eqn:product-vector1} and then plugging into Equation \ref{eqn:theorem-divergence},
+\be
+\int_{\Omega}(\Phi\n^2G-G\n^2\Phi) \ dv = \int_{\p \Omega} (\Phi\n G-G\n\Phi)\cd d\bf{a}
+\ee
+or,
+\be
+\int_{\Omega}(G\n^2\Phi) \ dv  =\int_{\Omega}(\Phi\n^2G) \ dv + \int_{\p \Omega} (G\f{\p\Phi}{\p n}-\Phi\f{ \p G}{\p n}) da
+\label{eqn:GreenSecondIdentity}
+\ee
+
+Let $G=1/(4\pi r)$, which is the fundamental solution of the three-dimensional Laplace equation, then the second identity becomes the third identity:
+\be
+\Phi=\f{1}{4\pi}\int_{\p \Omega} (\f{1}{r}\f{\p\Phi}{\p n}-\Phi\f{ \p (1/r)}{\p n}) da
+\ee
+
+\subsection{Green's Function}
+\label{subsection:GreenFunction}
+
+The Green's functions are solutions of partial differential equations with Dirac delta source. In other words, the application of that partial differential operator on it's Green's function will result in infinity:
+\be
+\mathcal{L} G(r,r') = \delta(r,r')
+\ee
+where $\mathcal{L}$ is the differential operator, $G$ is the Green's function of that operator, and $\delta(r,r')$ is the Dirac delta function:
+\be
+\delta(r,r')=\left\{
+\baa{ccc}
+0 \hst & if & r\neq r' \\
+\infty \hst & if & r= r'
+\eaa
+\right.
+\ee
+\be
+\int_{-\infty}^{+\infty} \delta(r,r')dr = 1
+\ee
+
+\subsection{Boundary Volume Method Formulation}
+%Good website
+%http://www.bem.uni-stuttgart.de/bem_pages/bem_script.html
+The boundary integral of the classical boundary element method involves the Green's function that reaches infinity when the location of the boundary integrand, $r$, coincides with the location of Dirac source, $r'$. Therefore, correctly evaluating the boundary integral is not a trivial task. The boundary volume method is proposed based on the finite volume discretization of both Green's second identity and the Green's functions. Each boundary node point is surrounded by a small volume and each value on the node points represents the value average of that finite volume. Using this volume averaging approximation, both the Dirac delta source and the Green's function at that source point become non-singular. This simplifies the boundary computation of the classical boundary element method.
+
+Consider a Laplace equation:
+\be
+\n^2 \Phi(r) = 0
+\ee
+Multiply the Green's function $G(r, r')$ and integrate over the domain $\Omega$,
+\be
+\int_{\Omega} [G(r,r_i)\n^2 \Phi]dv=0
+\ee
+Then apply Green's second identity,
+\be
+\int_{\Omega}[\Phi(r)\n^2G(r,r')] \ dv + \int_{\p \Omega} (G(r,r')\f{\p\Phi(r)}{\p n}-\Phi(r)\f{ \p G(r,r')}{\p n}) da =0 \ee
+Plug in the Green's function for the Laplace operator, $\n^2 G(r,r') = \delta(r,r')$,
+\be
+\int_{\Omega}[\Phi(r) \delta(r,r')] \ dv + \int_{\p \Omega} (G(r,r')\f{\p\Phi(r)}{\p n}-\Phi(r)\f{ \p G(r,r')}{\p n}) da= 0
+\ee
+The left hand side of the above equation can be evaluated analytically. For an interior point, $r' \in \Omega$:
+\be
+\Phi(r') = - \int_{\p \Omega} (G(r,r')\f{\p\Phi(r)}{\p n}-\Phi(r)\f{ \p G(r,r')}{\p n}) da
+\ee
+For a point on a smooth boundary, $r' \in \p \Omega$:
+\be
+\f{1}{2}\Phi(r') = - \int_{\p \Omega} (G(r,r')\f{\p\Phi(r)}{\p n}-\Phi(r)\f{ \p G(r,r')}{\p n}) da
+\ee
+However, it can be seen that the integral at right hand side may not be a trivial task because of the singular value of the Green's function. This can be simplified by defining a finite-volume discretized Green's function which is the solution to that Laplace operator with finite-volume averaged Dirac delta function.
+This modified Green's function is similar to the elemental solution mentioned in Section \label{section-ESS}.
+
+
+
+
+
+
+
+
+\begin{comment}
+Let the function $G$ satisfy the same boundary condition as the function $\Phi$,
+
+\be
+a \ \f{\p G}{\p n}+ b \ G = R
+\ee
+
+As a result Equation \ref{eqn:GreenSecondIdentity-Poisson} becomes
+
+\be
+\Phi(r_i) = \int_{\Omega} (G(r,r_i)S(r)) dv
+\ee
+
+If the function $G$ is chosen such that the boundary condition is,
+
+\be
+a \ \f{\p G}{\p n}+ b \ G = \delta (|r-r_i|) \hst r \in \p \Omega
+\ee
+
+
+
+\be
+G L \Phi = G S
+\ee
+
+
+
+\be
+\Phi = L^{-1}S
+\ee
+
+
+
+The Green's function can be seen as the solution to the corresponding differential operator with a Dirac delta function \citep{Fedele05}.
+
+
+The inverse $L$ operator is defined as an integral operator:
+\be
+L^{-1}S= \int G(r,r')S(r')dr'
+\ee
+where $G(r,r')$ is the Green function of the operator $L$. The application of the operator $L$ on it's Green's function will result in a Dirac impulse; in other words, the Green's function is sought by setting the source term to be a Dirac delta function:
+\be
+L G(r,r')=\delta (r-r')
+\ee
+
+
+
+Because the general source term can be constructed by the Dirac delta functions, the solution corresponding to that source term can be constructed by the Green's function as well:
+\be
+\int \delta(r-r')S(r')dr'=S(r)
+\ee
+\be
+\int G(r,r')S(r')dr'=\Phi(r)
+\ee
+
+%\citep{Lacson98}
+\end{comment}

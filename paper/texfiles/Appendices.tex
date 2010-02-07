@@ -1,0 +1,36 @@
+
+%\addcontentsline{toc}{chapter}{\hspace{-0.3in}\protect\numberline{}Appendices}
+\appendix
+\input{Appendices-ESS-Main}
+\input{Appendices-RCIP}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{comment}
+\addcontentsline{toc}{section}{\hspace{-0.3in}\protect\numberline{}A.1 CIP}
+
+
+A weak conservation technique is proposed to partially offset the loss or gain of the scalar transported by the CIP method:
+\be
+f^{n+1} = f^{n} + r(f^{*}-f^{n})
+\ee
+\be
+r =  1-sign(f^{*}-f^{n})\left[\left(\f{\sum_i f^{*}}{\sum_i f_o}\right)^c-1\right]
+\ee
+where $f^{n}$ is the scalar at the previous time step, $f^*$ is the intermediate result, $\sum_i f_o$ is the reference sum, and $c$ is a user specified parameter ( $c\geq 0$)
+
+%   ff(i,m,j) = ff(i,m,j) + (ff(i,m,j)-ff_0(i,m,j))*(1.0d0-total/total_ref)
+
+%\section*{Einstein summation convention}
+\end{comment}

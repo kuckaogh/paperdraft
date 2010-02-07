@@ -1,0 +1,32 @@
+\pagestyle{empty}
+
+\chapt*{ABSTRACT}
+
+\begin{center}
+\vspace{-1.1in}
+\large{Computational Methods for Multi-domain Geophysical Flows\\
+\vspace{0.1in}
+by \\
+\vspace{0.1in}
+Kuo-Cheng Kao \\}
+\end{center}
+\vspace{0.5in}
+\hspace{-0.15in}
+\large{Chair: Nikolaos D. Katopodes\\}
+\\
+
+An adjustable non-hydrostatics method is proposed as an approximate technique for numerical simulations of incompressible geophysical flows, such as gravity currents. The elliptic equations resulted from the incompressible non-hydrostatic primitive variable formulations can be the most computationally expensive part of the simulation. This proposed method alleviates the computation burden by combining the hydrodynamic pressure computation and the vertical velocity correction from the continuity equation. The hydrodynamic pressure is partially solved from the pressure-Poisson equation to approximate the velocity field, then followed by the correction from the continuity equation. The number of iterations or the accuracy of the hydrodynamic pressure computations are adjustable, providing the flexibility to balance the accuracy requirement and the computational cost.
+
+Domain decomposition with the sequential regularization method is extended from the concept of mixing explicit and implicit schemes that seek both stability and simplicity. Each subdomain can be computed by an implicit scheme independently with the subdomain boundary conditions approximated by the sequential regularization method. The surface wave and gravity current simulation is tested with this proposed domain decomposition method of two subdomains. This test motivated the study of the receding boundary method.
+
+
+The receding boundary method is proposed as an approximate domain decomposition technique for non-hydrostatic geophysical flow simulations. This method assumes open boundary conditions on the subdomain boundaries and utilizes an overlapping, receding and resetting grid strategy to enable the independent solution of each subdomain.
+This strategy helps to reduce the errors resulted from the open boundary assumption. A gravity current simulation is demonstrated with the receding boundary method to show the feasibility and to quantify the errors.
+
+\cp
+
+
+
+
+
+
