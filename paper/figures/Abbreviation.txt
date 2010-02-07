@@ -1,0 +1,9 @@
+Wav=Wave
+SoliWav=Solitary Wave
+StanWav=Standing Wave
+Num = Numerical
+RBM =Receding Boundary Method
+GraCur =Gravity Current
+LongCh =Long Channel
+Salin = Salinity
+Compar = Compared
